@@ -1,11 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from django.test import LiveServerTestCase
 import unittest
 import os
 import time
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
    
     def setUp(self):
         if os.environ.get('HEADLESS', False):
@@ -29,7 +30,7 @@ class NewVisitorTest(unittest.TestCase):
 
 
     def test_start_services_and_retrieve_it_later(self):
-        self.browser.get('http://127.0.0.1:8000')
+        self.browser.get(self.live_server_url)
 
         self.assertIn("静网", self.browser.title)
         header = self.browser.find_element(By.TAG_NAME, 'h1').text
@@ -65,5 +66,3 @@ class NewVisitorTest(unittest.TestCase):
         self.check_text_in_table('1. pptpd')
 
 
-if __name__ == '__main__':
-    unittest.main()
