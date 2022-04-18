@@ -6,6 +6,9 @@ import unittest
 import os
 import time
 
+
+MAX_TIME = 5
+
 class NewVisitorTest(LiveServerTestCase):
    
     def setUp(self):
@@ -19,14 +22,23 @@ class NewVisitorTest(LiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def check_text_in_table(self, text):
-        table = self.browser.find_element(By.ID, 'id_service_table')
-        rows = table.find_elements(By.TAG_NAME, 'tr')
+    def wait_to_check_text_in_table(self, text):
+        START_TIME = time.time()
+        while True:
+            try:
+                table = self.browser.find_element(By.ID, 'id_service_table')
+                rows = table.find_elements(By.TAG_NAME, 'tr')
 
-        self.assertIn(
-            text, 
-            [row.text for row in rows]
-        )
+                self.assertIn(
+                    text, 
+                    [row.text for row in rows]
+                )
+                return 
+            except (WebDriverException, AssertionError) as e:
+                if time.time() - START_TIME > MAX_TIME:
+                    raise e
+                else:
+                    time.sleep(0.2)
 
 
     def test_start_services_and_retrieve_it_later(self):
@@ -51,9 +63,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys("pptpd")
         submit.click()
 
-        time.sleep(1)
-
-        self.check_text_in_table('1. pptpd')
+        self.wait_to_check_text_in_table('1. pptpd')
 
         
         inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
@@ -62,7 +72,7 @@ class NewVisitorTest(LiveServerTestCase):
         submit.click()
         time.sleep(1)
 
-        self.check_text_in_table('2. xl2tpd')
-        self.check_text_in_table('1. pptpd')
+        self.wait_to_check_text_in_table('2. xl2tpd')
+        self.wait_to_check_text_in_table('1. pptpd')
 
 
