@@ -22,4 +22,5 @@ urlpatterns = [
     path('', views.home_page, name="home"),
     path('services/new', views.new_cate, name="new"),
     path('services/<int:pk>/', views.view_cate, name="view"),
+    path('services/<int:pk>/add', views.add_ser, name="add"),
 ]

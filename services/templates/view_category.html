@@ -7,13 +7,13 @@
 </head>
 <body>
     <h1>静网</h1>  
-    <form method="POST" action="/services/new">
+    <form method="POST" action="/services/{{ category.pk }}/add">
         <input id="id_new_service_name" name="new_service" type="text" placeholder="服务名">
         <input id="id_submit" type="submit" value="提交">
         {% csrf_token %}
     </form>
     <table id="id_service_table">
-        {% for service in services %}
+        {% for service in category.service_set.all %}
         <tr><td>{{ forloop.counter }}. {{ service.name }}</td></tr>
         {% endfor %}
     </table>

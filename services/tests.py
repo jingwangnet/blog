@@ -21,7 +21,7 @@ class HomePageTest(TestCase):
         self.assertContains(response, 'xl2ptd')
 
 
-class NewCategoryTtest(TestCase):
+class NewCategoryTest(TestCase):
 
     def test_can_save_a_post_request(self):
         data = {
@@ -63,6 +63,38 @@ class ViewCategoryTest(TestCase):
         self.assertContains(response, 'xl2ptd')
         self.assertNotContains(response, 'nps')
         self.assertNotContains(response, 'frp')
+
+    def test_pass_correct_category(self):
+        other_category = Category.objects.create()
+        category = Category.objects.create()
+        response = self.client.get(f'/services/{category.pk}/')
+
+        self.assertEqual(response.context['category'], category)
+
+
+class AddServicetest(TestCase):
+
+    def test_can_save_a_post_request_to_an_exsiting_category(self):
+        other_category = Category.objects.create()
+        category = Category.objects.create()
+        data = {
+            'new_service': 'A service'
+        }
+        response = self.client.post(f'/services/{category.pk}/add', data=data)
+     
+        self.assertEqual(1, Service.objects.count())
+        service = Service.objects.first()
+        self.assertEqual(service.name, 'A service')
+
+    def test_redirect_after_post(self):
+        category = Category.objects.create()
+        data = {
+            'new_service': 'A service'
+        }
+        response = self.client.post(f'/services/{category.pk}/add', data=data)
+         
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], f'/services/{category.pk}/')
 
 class ServiceModelTest(TestCase):
 

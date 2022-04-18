@@ -15,5 +15,10 @@ def new_cate(request):
 def view_cate(request, pk):
     category = Category.objects.get(pk=pk)
     services = Service.objects.filter(category=category)
-    context = {'services': services}
+    context = {'category': category}
     return render(request, 'view_category.html', context)
+
+def add_ser(request, pk):
+    category = Category.objects.get(pk=pk)
+    Service.objects.create(name=request.POST['new_service'], category=category)
+    return redirect(f'/services/{category.pk}/')
