@@ -11,3 +11,10 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
 
+    def test_can_save_a_post_request(self):
+        data = {
+            'new_service': 'A service'
+        }
+        response = self.client.post('/', data=data)
+        html = response.content.decode()
+        self.assertIn('A service', html)
