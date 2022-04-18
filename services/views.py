@@ -10,8 +10,10 @@ def home_page(request):
 def new_cate(request):
     category = Category.objects.create()
     Service.objects.create(name=request.POST['new_service'], category=category)
-    return redirect('/services/the-only-url/')
+    return redirect(f'/services/{category.pk}/')
 
-def view_cate(request):
-    context = {'services': Service.objects.all()}
+def view_cate(request, pk):
+    category = Category.objects.get(pk=pk)
+    services = Service.objects.filter(category=category)
+    context = {'services': services}
     return render(request, 'view_category.html', context)

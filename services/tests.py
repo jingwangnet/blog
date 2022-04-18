@@ -38,24 +38,31 @@ class NewCategoryTtest(TestCase):
             'new_service': 'A service'
         }
         response = self.client.post('/services/new', data=data)
+        category = Category.objects.first()
          
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/services/the-only-url/')
+        self.assertEqual(response['location'], f'/services/{category.pk}/')
 
 class ViewCategoryTest(TestCase):
 
     def test_use_view_catetory_template(self):
-        response = self.client.get('/services/the-only-url/')
+        category = Category.objects.create()
+        response = self.client.get(f'/services/{category.pk}/')
         self.assertTemplateUsed(response, 'view_category.html')
 
-    def test_display_all_items(self):
-        category = Category.objects.create()
-        Service.objects.create(name="pptpd", category=category)
-        Service.objects.create(name="xl2ptd", category=category)
+    def test_display_only_services_for_that_category_(self):
+        category_tunnel = Category.objects.create()
+        Service.objects.create(name="nps", category=category_tunnel)
+        Service.objects.create(name="frp", category=category_tunnel)
+        category_vpn = Category.objects.create()
+        Service.objects.create(name="pptpd", category=category_vpn)
+        Service.objects.create(name="xl2ptd", category=category_vpn)
 
-        response = self.client.get('/services/the-only-url/')
+        response = self.client.get(f'/services/{category_vpn.pk}/')
         self.assertContains(response, 'pptpd')
         self.assertContains(response, 'xl2ptd')
+        self.assertNotContains(response, 'nps')
+        self.assertNotContains(response, 'frp')
 
 class ServiceModelTest(TestCase):
 
