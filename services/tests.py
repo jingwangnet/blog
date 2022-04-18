@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.http import HttpRequest
 from django.urls import resolve
 from .views import home_page
-from .models import Service
+from .models import Service, Category
 
 # Create your tests here.
 class HomePageTest(TestCase):
@@ -12,8 +12,9 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def test_display_all_items(self):
-        Service.objects.create(name="pptpd")
-        Service.objects.create(name="xl2ptd")
+        category = Category.objects.create()
+        Service.objects.create(name="pptpd", category=category)
+        Service.objects.create(name="xl2ptd", category=category)
 
         response = self.client.get('/')
         self.assertContains(response, 'pptpd')
@@ -48,8 +49,9 @@ class ViewCategoryTest(TestCase):
         self.assertTemplateUsed(response, 'view_category.html')
 
     def test_display_all_items(self):
-        Service.objects.create(name="pptpd")
-        Service.objects.create(name="xl2ptd")
+        category = Category.objects.create()
+        Service.objects.create(name="pptpd", category=category)
+        Service.objects.create(name="xl2ptd", category=category)
 
         response = self.client.get('/services/the-only-url/')
         self.assertContains(response, 'pptpd')
@@ -58,16 +60,24 @@ class ViewCategoryTest(TestCase):
 class ServiceModelTest(TestCase):
 
     def test_creating_and_saving_service(self):
+        category = Category()
+        category.save()
         service_1 = Service()
         service_1.name = 'pptpd'
+        service_1.category = category 
         service_1.save()
         service_2 = Service()
         service_2.name = 'xl2tpd'
+        service_2.category = category
         service_2.save()
 
         self.assertEqual(2, Service.objects.count())
+        self.assertEqual(1, Category.objects.count())
 
-        saved_service_1, saved_service_2 = Service.objects.all()
+        saved_category = Category.objects.first()
+        saved_service_1, saved_service_2 = saved_category.service_set.all() 
 
         self.assertEqual(saved_service_1.name, 'pptpd')
+        self.assertEqual(saved_service_1.category, category)
         self.assertEqual(saved_service_2.name, 'xl2tpd')
+        self.assertEqual(saved_service_2.category, category)
