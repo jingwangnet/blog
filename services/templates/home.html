@@ -7,8 +7,11 @@
 </head>
 <body>
     <h1>静网</h1>  
-    <input id="id_new_service_name" type="text" placeholder="服务名">
-    <input id="id_submit" type="submit" value="提交">
+    <form method="POST">
+        <input id="id_new_service_name" name="new_service" type="text" placeholder="服务名">
+        <input id="id_submit" type="submit" value="提交">
+        {% csrf_token %}
+    </form>
     <table id="id_service_table">
         <tr></tr>
     </table>
