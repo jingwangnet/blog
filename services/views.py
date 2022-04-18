@@ -4,13 +4,13 @@ from .models import Service
 
 # Create your views here.
 def home_page(request):
-    if request.method == 'POST':
-        Service.objects.create(name=request.POST['new_service'])
-        return redirect('/services/the-only-url/')
-
     context = {'services': Service.objects.all()}
     return render(request, 'home.html', context)
+
+def new_cate(request):
+    Service.objects.create(name=request.POST['new_service'])
+    return redirect('/services/the-only-url/')
 
 def view_cate(request):
     context = {'services': Service.objects.all()}
-    return render(request, 'home.html', context)
+    return render(request, 'view_category.html', context)
