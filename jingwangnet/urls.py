@@ -20,4 +20,5 @@ from services import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_page, name="home"),
+    path('services/the-only-url/', views.view_cate, name="view_cate"),
 ]

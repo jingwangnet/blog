@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from django.test import LiveServerTestCase
 import unittest
@@ -70,9 +71,45 @@ class NewVisitorTest(LiveServerTestCase):
         submit = self.browser.find_element(By.ID, 'id_submit')
         inputbox.send_keys("xl2tpd")
         submit.click()
-        time.sleep(1)
 
         self.wait_to_check_text_in_table('2. xl2tpd')
         self.wait_to_check_text_in_table('1. pptpd')
 
+    def test_start_multiple_types_of_service_at_diffent_urls(self):
+        self.browser.get(self.live_server_url)
+
+        inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        submit = self.browser.find_element(By.ID, 'id_submit')
+        inputbox.send_keys("pptpd")
+        submit.click()
+
+        self.wait_to_check_text_in_table('1. pptpd')
+        VPN_URL = self.browser.current_url
+        self.assertRegex(VPN_URL, '/services/.+/')
+
+        self.browser.quit()
+        self.setUp()
+
+        self.browser.get(self.live_server_url)
+        page = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.assertIn('pptpd', page)
+
+        inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        submit = self.browser.find_element(By.ID, 'id_submit')
+        inputbox.send_keys("nps")
+        submit.click()
+
+        self.wait_to_check_text_in_table('1. nps')
+        TUNNEL_URL = self.browser.current_url
+        self.assertRegex(VPN_URL, '/services/.+/')
+        self.assertNotEqual(TUNNEL_URL, VPN_URL)
+
+        page = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.assertNotIn('pptpd', page)
+
+        self.browser.get(self.live_server_url)
+        page = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.assertIn('pptpd', page)
+        self.assertIn('nps', page)
+        
 

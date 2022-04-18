@@ -29,7 +29,7 @@ class HomePageTest(TestCase):
         response = self.client.post('/', data=data)
          
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/services/the-only-url/')
 
     def test_save_service_when_necessary(self):
         response = self.client.get('/')
@@ -43,6 +43,16 @@ class HomePageTest(TestCase):
         self.assertContains(response, 'pptpd')
         self.assertContains(response, 'xl2ptd')
 
+
+class ViewCategoryTest(TestCase):
+
+    def test_display_all_items(self):
+        Service.objects.create(name="pptpd")
+        Service.objects.create(name="xl2ptd")
+
+        response = self.client.get('/services/the-only-url/')
+        self.assertContains(response, 'pptpd')
+        self.assertContains(response, 'xl2ptd')
 
 class ServiceModelTest(TestCase):
 

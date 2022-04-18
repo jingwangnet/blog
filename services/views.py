@@ -6,7 +6,11 @@ from .models import Service
 def home_page(request):
     if request.method == 'POST':
         Service.objects.create(name=request.POST['new_service'])
-        return redirect('/')
+        return redirect('/services/the-only-url/')
 
+    context = {'services': Service.objects.all()}
+    return render(request, 'home.html', context)
+
+def view_cate(request):
     context = {'services': Service.objects.all()}
     return render(request, 'home.html', context)
