@@ -17,6 +17,10 @@ class HomePageTest(TestCase):
             'new_service': 'A service'
         }
         response = self.client.post('/', data=data)
+     
+        self.assertEqual(1, Service.objects.count())
+        service = Service.objects.first()
+        self.assertEqual(service.name, 'A service')
 
         html = response.content.decode()
         self.assertIn('A service', html)
