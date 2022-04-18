@@ -32,7 +32,7 @@ class NewVisitorTest(unittest.TestCase):
         )
         submit = self.browser.find_element(By.ID, 'id_submit')
         self.assertEqual(
-            inputbox.get_attribute('value'),
+            submit.get_attribute('value'),
             "提交"
         )
 
@@ -43,11 +43,11 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
 
         table = self.browser.find_element(By.ID, 'id_service_table')
-        rows = tables.find_elements(By.TAG_NAME, 'tr')
+        rows = table.find_elements(By.TAG_NAME, 'tr')
 
         self.assertIn(
             '1. Poptop',
-            [row.name for row in rows]
+            [row.text for row in rows]
         )
         
 
