@@ -49,9 +49,19 @@ class NewVisitorTest(LiveServerTestCase):
         header = self.browser.find_element(By.TAG_NAME, 'h1').text
         self.assertIn("静网", header)
 
-        inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         self.assertEqual(
-            inputbox.get_attribute('placeholder'),
+            category_inputbox.get_attribute('placeholder'),
+            "服务类型"
+        )
+        category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_name_abbr')
+        self.assertEqual(
+            category_abbr_inputbox.get_attribute('placeholder'),
+            "服务类型缩写"
+        )
+        service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        self.assertEqual(
+            service_inputbox.get_attribute('placeholder'),
             "服务名"
         )
         submit = self.browser.find_element(By.ID, 'id_submit')
@@ -61,7 +71,9 @@ class NewVisitorTest(LiveServerTestCase):
         )
 
 
-        inputbox.send_keys("pptpd")
+        category_inputbox.send_keys("Virtual Private Network")
+        category_abbr_inputbox.send_keys("VPN")
+        service_inputbox.send_keys("pptpd")
         submit.click()
 
         self.wait_to_check_text_in_table('1. pptpd')
