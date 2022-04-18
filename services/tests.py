@@ -16,5 +16,8 @@ class HomePageTest(TestCase):
             'new_service': 'A service'
         }
         response = self.client.post('/', data=data)
+
         html = response.content.decode()
         self.assertIn('A service', html)
+        self.assertTemplateUsed(response, 'home.html')
+
