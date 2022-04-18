@@ -26,6 +26,10 @@ class HomePageTest(TestCase):
         self.assertIn('A service', html)
         self.assertTemplateUsed(response, 'home.html')
 
+    def test_save_service_when_necessary(self):
+        response = self.client.get('/')
+        self.assertEqual(0, Service.objects.count())
+
 
 class ServiceModelTest(TestCase):
 

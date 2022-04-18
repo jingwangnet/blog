@@ -4,10 +4,12 @@ from .models import Service
 
 # Create your views here.
 def home_page(request):
-    service = Service() 
-    service.name = request.POST.get('new_service', '')
-    service.save()
+    if request.method == 'POST':
+        service = Service.objects.create(name=request.POST['new_service'])
+        new_service = service.name
+    else:
+        new_service = ''
     context = {
-        'new_service': service.name
+        'new_service': new_service 
     }
     return render(request, 'home.html', context)
