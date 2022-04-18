@@ -1,15 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Service
 
 # Create your views here.
 def home_page(request):
     if request.method == 'POST':
-        service = Service.objects.create(name=request.POST['new_service'])
-        new_service = service.name
-    else:
-        new_service = ''
-    context = {
-        'new_service': new_service 
-    }
+        Service.objects.create(name=request.POST['new_service'])
+        return redirect('/')
+
+    context = {'services': Service.objects.all()}
     return render(request, 'home.html', context)

@@ -57,7 +57,7 @@ class NewVisitorTest(unittest.TestCase):
         
         inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
-        inputbox.send_keys("xl2ptd")
+        inputbox.send_keys("xl2tpd")
         submit.click()
         time.sleep(1)
 

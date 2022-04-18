@@ -22,13 +22,26 @@ class HomePageTest(TestCase):
         service = Service.objects.first()
         self.assertEqual(service.name, 'A service')
 
-        html = response.content.decode()
-        self.assertIn('A service', html)
-        self.assertTemplateUsed(response, 'home.html')
+    def test_redirect_after_post(self):
+        data = {
+            'new_service': 'A service'
+        }
+        response = self.client.post('/', data=data)
+         
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
 
     def test_save_service_when_necessary(self):
         response = self.client.get('/')
         self.assertEqual(0, Service.objects.count())
+
+    def test_display_all_items(self):
+        Service.objects.create(name="pptpd")
+        Service.objects.create(name="xl2ptd")
+
+        response = self.client.get('/')
+        self.assertContains(response, 'pptpd')
+        self.assertContains(response, 'xl2ptd')
 
 
 class ServiceModelTest(TestCase):

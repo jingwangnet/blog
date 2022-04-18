@@ -13,7 +13,9 @@
         {% csrf_token %}
     </form>
     <table id="id_service_table">
-        <tr><td>1. {{ new_service }}</td></tr>
+        {% for service in services %}
+        <tr><td>{{ forloop.counter }}. {{ service.name }}</td></tr>
+        {% endfor %}
     </table>
     
     
