@@ -133,12 +133,23 @@ class NewVisitorTest(LiveServerTestCase):
         page = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('pptpd', page)
 
-        inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
+        category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
+        category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
+        service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
-        inputbox.send_keys("nps")
+
+        category_inputbox.send_keys("NAT traversal")
+        category_abbr_inputbox.send_keys("内网穿透")
+        category_resume_inputbox.send_keys("涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。")
+        service_inputbox.send_keys("nps")
         submit.click()
 
         self.wait_to_check_text_in_table('1. nps')
+        self.check_text_in_element("NAT traversal", 'h1')
+        self.check_text_in_element("内网穿透", 'abbr')
+        self.check_text_in_element("涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。", 'p')
+
         TUNNEL_URL = self.browser.current_url
         self.assertRegex(VPN_URL, '/services/.+/')
         self.assertNotEqual(TUNNEL_URL, VPN_URL)
