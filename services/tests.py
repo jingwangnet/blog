@@ -100,6 +100,9 @@ class ServiceModelTest(TestCase):
 
     def test_creating_and_saving_service(self):
         category = Category()
+        category.name = 'Virtual Private Network'
+        category.abbr = 'VPN'
+        category.resume = '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
         category.save()
         service_1 = Service()
         service_1.name = 'pptpd'
@@ -114,6 +117,12 @@ class ServiceModelTest(TestCase):
         self.assertEqual(1, Category.objects.count())
 
         saved_category = Category.objects.first()
+
+        self.assertEqual(saved_category.name, 'Virtual Private Network')
+        self.assertEqual(saved_category.abbr, 'VPN')
+        self.assertEqual(saved_category.resume, '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。')
+
+
         saved_service_1, saved_service_2 = saved_category.service_set.all() 
 
         self.assertEqual(saved_service_1.name, 'pptpd')
