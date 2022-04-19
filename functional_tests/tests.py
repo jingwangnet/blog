@@ -73,10 +73,6 @@ class NewVisitorTest(LiveServerTestCase):
             category_resume_inputbox.get_attribute('placeholder'),
             "服务类型简介"
         )
-        self.assertEqual(
-            category_abbr_inputbox.get_attribute('placeholder'),
-            "服务类型缩写"
-        )
         service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         self.assertEqual(
             service_inputbox.get_attribute('placeholder'),
@@ -96,8 +92,8 @@ class NewVisitorTest(LiveServerTestCase):
 
         self.wait_to_check_text_in_table('1. pptpd')
         self.check_text_in_element("Virtual Private Network", 'h1')
-        self.check_text_in_element("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。", 'p')
         self.check_text_in_element("VPN", 'abbr')
+        self.check_text_in_element("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。", 'p')
         
         inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
@@ -110,14 +106,25 @@ class NewVisitorTest(LiveServerTestCase):
     def test_start_multiple_types_of_service_at_diffent_urls(self):
         self.browser.get(self.live_server_url)
 
-        inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
+        category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
+        category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
+        service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
-        inputbox.send_keys("pptpd")
+
+        category_inputbox.send_keys("Virtual Private Network")
+        category_abbr_inputbox.send_keys("VPN")
+        category_resume_inputbox.send_keys("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
+        service_inputbox.send_keys("pptpd")
         submit.click()
 
-        self.wait_to_check_text_in_table('1. pptpd')
         VPN_URL = self.browser.current_url
         self.assertRegex(VPN_URL, '/services/.+/')
+
+        self.wait_to_check_text_in_table('1. pptpd')
+        self.check_text_in_element("Virtual Private Network", 'h1')
+        self.check_text_in_element("VPN", 'abbr')
+        self.check_text_in_element("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。", 'p')
 
         self.browser.quit()
         self.setUp()
