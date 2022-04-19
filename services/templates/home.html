@@ -6,20 +6,38 @@
     <title>静网</title>
 </head>
 <body>
-    <h1>静网</h1>  
-    <form method="POST" action="/services/new">
-        <input id="id_new_category_name" name="new_category" type="text" placeholder="服务类型">
-        <input id="id_new_category_abbr" name="new_category_abbr" type="text" placeholder="服务类型缩写">
-        <input id="id_new_category_resume" name="new_category_resume" type="text" placeholder="服务类型简介">
-        <input id="id_new_service_name" name="new_service" type="text" placeholder="服务名">
-        <input id="id_submit" type="submit" value="提交">
-        {% csrf_token %}
-    </form>
-    <table id="id_service_table">
-        {% for service in services %}
-        <tr><td>{{ forloop.counter }}. {{ service.name }}</td></tr>
+    <header>
+        <h1>静网</h1>  
+    </header>
+    <aside>
+        <form method="POST" action="/services/new">
+            <input id="id_new_category_name" name="new_category" type="text" placeholder="服务类型">
+            <input id="id_new_category_abbr" name="new_category_abbr" type="text" placeholder="服务类型缩写">
+            <input id="id_new_category_resume" name="new_category_resume" type="text" placeholder="服务类型简介">
+            <input id="id_new_service_name" name="new_service" type="text" placeholder="服务名">
+            <input id="id_submit" type="submit" value="提交">
+            {% csrf_token %}
+        </form>
+    </aside>
+
+    <main>
+        <header>
+            <h1>服务列表</h1>
+        </header>
+        <dl id="id_service_table">
+        {% regroup services by category.name as category_list %}
+        {% for category, category_service in category_list %}
+            <dt>{{ category }}<dt>
+            {% for service in category_service %}
+            <dd>{{ forloop.counter }}. {{ service.name }}</dd>
+            {% empty %}
+            <p>还有添加服务!</p>   
+            {% endfor %}
+        {% empty %}
+            <p>还有添加服务!</p>   
         {% endfor %}
-    </table>
+        </dl>
+    </main>
 </body>
 </html>
 

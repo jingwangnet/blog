@@ -41,6 +41,15 @@ class NewVisitorTest(LiveServerTestCase):
                 else:
                     time.sleep(0.2)
 
+    def check_text_in_dl(self, element, text):
+        dl = self.browser.find_element(By.ID, 'id_service_table')
+        rows = dl.find_elements(By.TAG_NAME, element)
+
+        self.assertIn(
+            text, 
+            [row.text for row in rows]
+        )
+
     def check_text_in_element(self, text, element):
         main = self.browser.find_element(By.TAG_NAME, 'main')
         expect_text = main.find_element(By.TAG_NAME, element).text
@@ -106,6 +115,10 @@ class NewVisitorTest(LiveServerTestCase):
     def test_start_multiple_types_of_service_at_diffent_urls(self):
         self.browser.get(self.live_server_url)
 
+        page = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.check_text_in_element('服务列表', 'h1')
+        self.check_text_in_element('还有添加服务!', 'p')
+
         category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
         category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
@@ -130,8 +143,12 @@ class NewVisitorTest(LiveServerTestCase):
         self.setUp()
 
         self.browser.get(self.live_server_url)
+        
         page = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('pptpd', page)
+        self.check_text_in_element('服务列表', 'h1')
+        self.check_text_in_dl('dt', 'Virtual Private Network')
+        self.check_text_in_dl('dd', '1. pptpd')
 
         category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
@@ -161,5 +178,10 @@ class NewVisitorTest(LiveServerTestCase):
         page = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('pptpd', page)
         self.assertIn('nps', page)
+        self.check_text_in_element('服务列表', 'h1')
+        self.check_text_in_dl('dt', 'Virtual Private Network')
+        self.check_text_in_dl('dd', '1. pptpd')
+        self.check_text_in_dl('dt', 'NAT traversal')
+        self.check_text_in_dl('dd', '1. nps')
         
 
