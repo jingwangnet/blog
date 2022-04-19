@@ -63,7 +63,7 @@ class ViewCategoryTest(TestCase):
         response = self.client.get(f'/services/{category.pk}/')
         self.assertTemplateUsed(response, 'view_category.html')
 
-    def test_display_only_services_for_that_category_(self):
+    def test_display_only_services_for_that_category(self):
         category_tunnel = Category.objects.create()
         Service.objects.create(name="nps", category=category_tunnel)
         Service.objects.create(name="frp", category=category_tunnel)
@@ -76,6 +76,29 @@ class ViewCategoryTest(TestCase):
         self.assertContains(response, 'xl2ptd')
         self.assertNotContains(response, 'nps')
         self.assertNotContains(response, 'frp')
+
+    def test_can_display_categories(self):
+        category_vpn = Category.objects.create(
+            name = 'Virtual Private Network',
+            abbr = 'VPN',
+            resume = '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
+        )
+
+        response = self.client.get(f'/services/{category_vpn.pk}/')
+        self.assertContains(response, 'Virtual Private Network')
+        self.assertContains(response, 'VPN')
+        self.assertContains(response, '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'   )
+
+        category_nat = Category.objects.create(
+            name = 'NAT traversal',
+            abbr = '内网穿透',
+            resume = '涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。'
+        )
+        response = self.client.get(f'/services/{category_nat.pk}/')
+        self.assertContains(response, 'NAT traversal')
+        self.assertContains(response, '内网穿透')
+        self.assertContains(response, '涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。'
+        )
 
     def test_pass_correct_category(self):
         other_category = Category.objects.create()
