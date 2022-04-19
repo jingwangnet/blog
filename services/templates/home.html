@@ -8,9 +8,9 @@
 <body>
     <h1>静网</h1>  
     <form method="POST" action="/services/new">
-        <input id="id_new_category_name" name="new_service_name" type="text" placeholder="服务类型">
-        <input id="id_new_category_abbr" name="new_service_abbr" type="text" placeholder="服务类型缩写">
-        <input id="id_new_category_resume" name="new_service_resume" type="text" placeholder="服务类型简介">
+        <input id="id_new_category_name" name="new_category" type="text" placeholder="服务类型">
+        <input id="id_new_category_abbr" name="new_category_abbr" type="text" placeholder="服务类型缩写">
+        <input id="id_new_category_resume" name="new_category_resume" type="text" placeholder="服务类型简介">
         <input id="id_new_service_name" name="new_service" type="text" placeholder="服务名">
         <input id="id_submit" type="submit" value="提交">
         {% csrf_token %}

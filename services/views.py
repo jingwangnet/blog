@@ -8,7 +8,11 @@ def home_page(request):
     return render(request, 'home.html', context)
 
 def new_cate(request):
-    category = Category.objects.create()
+    category = Category.objects.create(
+        name = request.POST['new_category'],
+        abbr = request.POST['new_category_abbr'],
+        resume = request.POST['new_category_resume']
+    )
     Service.objects.create(name=request.POST['new_service'], category=category)
     return redirect(f'/services/{category.pk}/')
 
