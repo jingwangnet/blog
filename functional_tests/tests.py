@@ -210,3 +210,17 @@ class NewVisitorTest(LiveServerTestCase):
              delta=0.1
         )
         
+        category_inputbox.send_keys("Virtual Private Network")
+        category_abbr_inputbox.send_keys("VPN")
+        category_resume_inputbox.send_keys("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
+        service_inputbox.send_keys("pptpd")
+        submit.click()
+
+        self.wait_to_check_text_in_table('1. pptpd')
+
+        inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        self.assertAlmostEqual(
+             inputbox.size['width'] / 768,
+             0.7,
+             delta=0.1
+        )
