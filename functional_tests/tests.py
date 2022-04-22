@@ -205,8 +205,8 @@ class NewVisitorTest(LiveServerTestCase):
         submit = self.browser.find_element(By.ID, 'id_submit')
 
         self.assertAlmostEqual(
-             service_inputbox.location['x'] + service_inputbox.size['width'] / 2,
-             382,
-             delta=10
+             service_inputbox.size['width'] / 768,
+             0.7,
+             delta=0.1
         )
         
