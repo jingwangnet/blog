@@ -194,4 +194,19 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_text_in_element("VPN", 'abbr')
         self.check_text_in_element("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。", 'p')
 
+    def test_layout_and_styling(self):
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(768, 1000)
 
+        category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
+        category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
+        category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
+        service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        submit = self.browser.find_element(By.ID, 'id_submit')
+
+        self.assertAlmostEqual(
+             service_inputbox.location['x'] + service_inputbox.size['width'] / 2,
+             382,
+             delta=10
+        )
+        
