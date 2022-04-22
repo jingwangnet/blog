@@ -1,3 +1,19 @@
+{% extends "base.html" %}
+{% block title %}静网{% endblock %}
+{% block action_url %}/services/{{ category.pk }}/add{% endblock %}
+{% block input_category %}{% endblock %}
+{% block header %}
+            <h1>{{ category.name }}</h1>
+            <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
+{% endblock %}
+{% block table %}
+        <table id="id_service_table">
+            {% for service in category.service_set.all %}
+            <tr><td>{{ forloop.counter }}. {{ service.name }}</td></tr>
+            {% endfor %}
+        </table>
+{% endblock %}
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,4 +45,4 @@
     </main>
 </body>
 </html>
-
+-->

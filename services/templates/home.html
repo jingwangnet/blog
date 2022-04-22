@@ -1,38 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="device=device-width, initial-scale=1.0">
-    <title>静网</title>
-    <style>
-        form, input {
-            display: block;
-        }
-        input {
-            width: 70%;
-        }
-        
-    </style>
-</head>
-<body>
-    <header>
-        <h1>静网</h1>  
-    </header>
-    <aside>
-        <form method="POST" action="/services/new">
-            <input id="id_new_category_name" name="new_category" type="text" placeholder="服务类型">
-            <input id="id_new_category_abbr" name="new_category_abbr" type="text" placeholder="服务类型缩写">
-            <input id="id_new_category_resume" name="new_category_resume" type="text" placeholder="服务类型简介">
-            <input id="id_new_service_name" name="new_service" type="text" placeholder="服务名">
-            <input id="id_submit" type="submit" value="提交">
-            {% csrf_token %}
-        </form>
-    </aside>
-
-    <main>
-        <header>
-            <h1>服务列表</h1>
-        </header>
+{% extends 'base.html' %}
+{% block title %}静网{% endblock %}
+{% block action_url %}/services/new{% endblock %}
+{% block header %}<h1>服务列表</h1>{% endblock %}
+{% block table %}
         <dl id="id_service_table">
         {% regroup services by category as category_list %}
         {% for category, category_services in category_list %}
@@ -46,7 +16,4 @@
             <p>还有添加服务!</p>   
         {% endfor %}
         </dl>
-    </main>
-</body>
-</html>
-
+{% endblock %}
