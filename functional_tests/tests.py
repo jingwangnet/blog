@@ -114,6 +114,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.wait_to_check_text_in_table('2. xl2tpd')
         self.wait_to_check_text_in_table('1. pptpd')
         self.check_text_in_page("xl2tpd resume")
+        self.check_text_in_page("pptpd resume")
 
     def test_start_multiple_types_of_service_at_diffent_urls(self):
         self.browser.get(self.live_server_url)
@@ -150,11 +151,11 @@ class NewVisitorTest(LiveServerTestCase):
 
         self.browser.get(self.live_server_url)
         
-        page = self.browser.find_element(By.TAG_NAME, 'body').text
-        self.assertIn('pptpd', page)
         self.check_text_in_page('服务列表')
         self.check_text_in_page('Virtual Private Network')
+        self.check_text_in_page('vpn resume')
         self.check_text_in_page('1. pptpd')
+        self.check_text_in_page('pptpd resume')
 
         category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
@@ -186,14 +187,15 @@ class NewVisitorTest(LiveServerTestCase):
         home_link = self.browser.find_element(By.LINK_TEXT, '静网')
         home_link.click()
         #self.browser.get(self.live_server_url)
-        page = self.browser.find_element(By.TAG_NAME, 'body').text
-        self.assertIn('pptpd', page)
-        self.assertIn('nps', page)
         self.check_text_in_page('服务列表')
         self.check_text_in_page('Virtual Private Network')
+        self.check_text_in_page('vpn resume')
         self.check_text_in_page('1. pptpd')
+        self.check_text_in_page('pptpd resume')
         self.check_text_in_page('NAT traversal')
+        self.check_text_in_page('nat traversal resume')
         self.check_text_in_page('1. nps')
+        self.check_text_in_page('nps resume')
 
         vpn_link = self.browser.find_element(By.LINK_TEXT, 'Virtual Private Network')
         vpn_link.click()

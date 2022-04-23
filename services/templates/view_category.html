@@ -3,16 +3,16 @@
 {% block action_url %}/services/{{ category.pk }}/add{% endblock %}
 {% block input_category %}{% endblock %}
 {% block header %}
-            <h1>{{ category.name }}</h1>
-            <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
+      <h1>{{ category.name }}</h1>
+      <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
 {% endblock %}
 {% block table %}
-        <article id="id_service_table">
-            {% for service in category.service_set.all %}
-            <article>
-              <h1>{{ forloop.counter }}. {{ service.name }}</h1>
-              <p>{{ service.resume }}</p>
-            </article>
-            {% endfor %}
-        </article>
+    <article id="id_service_table">
+      {% for service in category.service_set.all %}
+      <article>
+        <h1>{{ forloop.counter }}. {{ service.name }}</h1>
+        <p>{{ service.resume }}</p>
+      </article>
+      {% endfor %}
+    </article>
 {% endblock %}
