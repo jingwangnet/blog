@@ -132,18 +132,21 @@ class NewVisitorTest(LiveServerTestCase):
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
         category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
         service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
         submit = self.browser.find_element(By.ID, 'id_submit')
 
         category_name_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
         category_resume_inputbox.send_keys("vpn resume")
         service_name_inputbox.send_keys("pptpd")
+        service_resume_inputbox.send_keys("pptpd resume")
         submit.click()
 
         VPN_URL = self.browser.current_url
         self.assertRegex(VPN_URL, '/services/.+/')
 
         self.wait_to_check_text_in_table('1. pptpd')
+        self.check_text_in_page("pptpd resume")
         self.check_text_in_page("Virtual Private Network")
         self.check_text_in_page("VPN")
         self.check_text_in_page("vpn resume")
@@ -198,7 +201,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_text_in_dl('dt', 'NAT traversal')
         self.check_text_in_dl('dd', '1. nps')
 
-        
         vpn_link = self.browser.find_element(By.LINK_TEXT, 'Virtual Private Network')
         vpn_link.click()
         self.wait_to_check_text_in_table('1. pptpd')
@@ -214,6 +216,7 @@ class NewVisitorTest(LiveServerTestCase):
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
         category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
         service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
         submit = self.browser.find_element(By.ID, 'id_submit')
 
         self.assertAlmostEqual(
@@ -226,6 +229,7 @@ class NewVisitorTest(LiveServerTestCase):
         category_abbr_inputbox.send_keys("VPN")
         category_resume_inputbox.send_keys("vpn resume")
         service_name_inputbox.send_keys("pptpd")
+        service_resume_inputbox.send_keys("pptpd resume")
         submit.click()
 
         self.wait_to_check_text_in_table('1. pptpd')
