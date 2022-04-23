@@ -24,9 +24,9 @@ class HomePageTest(TestCase):
 class NewCategoryTest(TestCase):
 
     data = {
-        'new_service': 'pptpd',
+        'new_service_name': 'pptpd',
         'new_service_resume': '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包',
-        'new_category': 'Virtual Private Network',
+        'new_category_name': 'Virtual Private Network',
         'new_category_abbr': 'VPN',
         'new_category_resume': '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
     }
@@ -115,7 +115,7 @@ class AddServicetest(TestCase):
         other_category = Category.objects.create()
         category = Category.objects.create()
         data = {
-            'new_service': 'A service',
+            'new_service_name': 'A service',
             'new_service_resume': 'A service resume'
         }
         response = self.client.post(f'/services/{category.pk}/add', data=data)
@@ -128,7 +128,7 @@ class AddServicetest(TestCase):
     def test_redirect_after_post(self):
         category = Category.objects.create()
         data = {
-            'new_service': 'A service',
+            'new_service_name': 'A service',
             'new_service_resume': 'A service resume'
         }
         response = self.client.post(f'/services/{category.pk}/add', data=data)

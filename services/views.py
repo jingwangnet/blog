@@ -9,12 +9,12 @@ def home_page(request):
 
 def new_cate(request):
     category = Category.objects.create(
-        name = request.POST['new_category'],
+        name = request.POST['new_category_name'],
         abbr = request.POST['new_category_abbr'],
         resume = request.POST['new_category_resume']
     )
     Service.objects.create(
-        name=request.POST['new_service'],
+        name=request.POST['new_service_name'],
         resume=request.POST['new_service_resume'],
         category=category
     )
@@ -29,7 +29,7 @@ def view_cate(request, pk):
 def add_ser(request, pk):
     category = Category.objects.get(pk=pk)
     Service.objects.create(
-        name=request.POST['new_service'],
+        name=request.POST['new_service_name'],
         resume=request.POST['new_service_resume'],
         category=category
     )
