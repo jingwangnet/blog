@@ -115,18 +115,21 @@ class AddServicetest(TestCase):
         other_category = Category.objects.create()
         category = Category.objects.create()
         data = {
-            'new_service': 'A service'
+            'new_service': 'A service',
+            'new_service_resume': 'A service resume'
         }
         response = self.client.post(f'/services/{category.pk}/add', data=data)
      
         self.assertEqual(1, Service.objects.count())
         service = Service.objects.first()
         self.assertEqual(service.name, 'A service')
+        self.assertEqual(service.resume, 'A service resume')
 
     def test_redirect_after_post(self):
         category = Category.objects.create()
         data = {
-            'new_service': 'A service'
+            'new_service': 'A service',
+            'new_service_resume': 'A service resume'
         }
         response = self.client.post(f'/services/{category.pk}/add', data=data)
          

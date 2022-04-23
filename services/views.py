@@ -28,5 +28,9 @@ def view_cate(request, pk):
 
 def add_ser(request, pk):
     category = Category.objects.get(pk=pk)
-    Service.objects.create(name=request.POST['new_service'], category=category)
+    Service.objects.create(
+        name=request.POST['new_service'],
+        resume=request.POST['new_service_resume'],
+        category=category
+    )
     return redirect(f'/services/{category.pk}/')

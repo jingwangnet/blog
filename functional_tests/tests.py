@@ -66,9 +66,9 @@ class NewVisitorTest(LiveServerTestCase):
         header = self.browser.find_element(By.TAG_NAME, 'h1').text
         self.assertIn("静网", header)
 
-        category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
+        category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         self.assertEqual(
-            category_inputbox.get_attribute('placeholder'),
+            category_name_inputbox.get_attribute('placeholder'),
             "服务类型名"
         )
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
@@ -81,9 +81,9 @@ class NewVisitorTest(LiveServerTestCase):
             category_resume_inputbox.get_attribute('placeholder'),
             "服务类型简介"
         )
-        service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         self.assertEqual(
-            service_inputbox.get_attribute('placeholder'),
+            service_name_inputbox.get_attribute('placeholder'),
             "服务名"
         )
         service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
@@ -97,10 +97,10 @@ class NewVisitorTest(LiveServerTestCase):
             "提交"
         )
 
-        category_inputbox.send_keys("Virtual Private Network")
+        category_name_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
         category_resume_inputbox.send_keys("vpn resume")
-        service_inputbox.send_keys("pptpd")
+        service_name_inputbox.send_keys("pptpd")
         service_resume_inputbox.send_keys("pptpd resume")
         submit.click()
 
@@ -109,13 +109,17 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_text_in_page("Virtual Private Network")
         self.check_text_in_page("VPN")
         self.check_text_in_page("vpn resume")
-        inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+
+        service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
         submit = self.browser.find_element(By.ID, 'id_submit')
-        inputbox.send_keys("xl2tpd")
+        service_name_inputbox.send_keys("xl2tpd")
+        service_resume_inputbox.send_keys("xl2tpd resume")
         submit.click()
 
         self.wait_to_check_text_in_table('2. xl2tpd')
         self.wait_to_check_text_in_table('1. pptpd')
+        self.check_text_in_page("xl2tpd resume")
 
     def test_start_multiple_types_of_service_at_diffent_urls(self):
         self.browser.get(self.live_server_url)
@@ -124,16 +128,16 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_text_in_page('服务列表')
         self.check_text_in_page('还有添加服务!')
 
-        category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
+        category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
         category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
-        service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
 
-        category_inputbox.send_keys("Virtual Private Network")
+        category_name_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
         category_resume_inputbox.send_keys("vpn resume")
-        service_inputbox.send_keys("pptpd")
+        service_name_inputbox.send_keys("pptpd")
         submit.click()
 
         VPN_URL = self.browser.current_url
@@ -155,22 +159,25 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_text_in_dl('dt', 'Virtual Private Network')
         self.check_text_in_dl('dd', '1. pptpd')
 
-        category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
+        category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
         category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
-        service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
         submit = self.browser.find_element(By.ID, 'id_submit')
 
-        category_inputbox.send_keys("NAT traversal")
+        category_name_inputbox.send_keys("NAT traversal")
         category_abbr_inputbox.send_keys("内网穿透")
         category_resume_inputbox.send_keys("nat traversal resume")
-        service_inputbox.send_keys("nps")
+        service_name_inputbox.send_keys("nps")
+        service_resume_inputbox.send_keys("nps resume")
         submit.click()
 
         self.wait_to_check_text_in_table('1. nps')
         self.check_text_in_page("NAT traversal")
         self.check_text_in_page("内网穿透")
         self.check_text_in_page("nat traversal resume")
+        self.check_text_in_page("nps resume")
 
         TUNNEL_URL = self.browser.current_url
         self.assertRegex(VPN_URL, '/services/.+/')
@@ -203,22 +210,22 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
         self.browser.set_window_size(768, 1000)
 
-        category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
+        category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
         category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
-        service_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
 
         self.assertAlmostEqual(
-             service_inputbox.size['width'] / 768,
+             service_name_inputbox.size['width'] / 768,
              0.7,
              delta=0.1
         )
         
-        category_inputbox.send_keys("Virtual Private Network")
+        category_name_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
         category_resume_inputbox.send_keys("vpn resume")
-        service_inputbox.send_keys("pptpd")
+        service_name_inputbox.send_keys("pptpd")
         submit.click()
 
         self.wait_to_check_text_in_table('1. pptpd')
