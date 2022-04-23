@@ -70,12 +70,12 @@ class NewVisitorTest(LiveServerTestCase):
         category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         self.assertEqual(
             category_inputbox.get_attribute('placeholder'),
-            "服务类型"
+            "服务类型名"
         )
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
         self.assertEqual(
             category_abbr_inputbox.get_attribute('placeholder'),
-            "服务类型缩写"
+            "服务类型名缩写"
         )
         category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
         self.assertEqual(
@@ -86,6 +86,11 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertEqual(
             service_inputbox.get_attribute('placeholder'),
             "服务名"
+        )
+        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
+        self.assertEqual(
+            service_resume_inputbox.get_attribute('placeholder'),
+            "服务简介"
         )
         submit = self.browser.find_element(By.ID, 'id_submit')
         self.assertEqual(

@@ -24,14 +24,15 @@
         {% block input_category %}
         <fieldset>
             <legend>服务类型</legend>
-            <input id="id_new_category_name" name="new_category" type="text" placeholder="服务类型">
-            <input id="id_new_category_abbr" name="new_category_abbr" type="text" placeholder="服务类型缩写">
-            <input id="id_new_category_resume" name="new_category_resume" type="text" placeholder="服务类型简介">
+            <input id="id_new_category_name" name="new_category" type="text" placeholder="服务类型名">
+            <input id="id_new_category_abbr" name="new_category_abbr" type="text" placeholder="服务类型名缩写">
+            <input id="id_new_category_resume" name="new_category_resume" type="textarea" placeholder="服务类型简介">
         </fieldset>
         {% endblock %}
         <fieldset>
             <legend>服务</legend>
             <input id="id_new_service_name" name="new_service" type="text" placeholder="服务名">
+            <input id="id_new_service_resume" name="new_srvice_resume" type="textarea" placeholder="服务简介">
         </fieldset>
             <input id="id_submit" type="submit" value="提交">
             {% csrf_token %}
