@@ -23,18 +23,21 @@ class HomePageTest(TestCase):
 
 class NewCategoryTest(TestCase):
 
+    data = {
+        'new_service': 'pptpd',
+        'new_service_resume': '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包',
+        'new_category': 'Virtual Private Network',
+        'new_category_abbr': 'VPN',
+        'new_category_resume': '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
+    }
+
     def test_can_save_a_post_request(self):
-        data = {
-            'new_service': 'pptpd',
-            'new_category': 'Virtual Private Network',
-            'new_category_abbr': 'VPN',
-            'new_category_resume': '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
-        }
-        response = self.client.post('/services/new', data=data)
+        response = self.client.post('/services/new', data=self.data)
      
         self.assertEqual(1, Service.objects.count())
         service = Service.objects.first()
         self.assertEqual(service.name, 'pptpd')
+        self.assertEqual(service.resume, '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包')
 
         self.assertEqual(1, Category.objects.count())
         category = Category.objects.first()
@@ -44,13 +47,7 @@ class NewCategoryTest(TestCase):
 
 
     def test_redirect_after_post(self):
-        data = {
-            'new_service': 'pptpd',
-            'new_category': 'Virtual Private Network',
-            'new_category_abbr': 'VPN',
-            'new_category_resume': '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
-        }
-        response = self.client.post('/services/new', data=data)
+        response = self.client.post('/services/new', data=self.data)
         category = Category.objects.first()
          
         self.assertEqual(response.status_code, 302)

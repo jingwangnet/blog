@@ -105,10 +105,10 @@ class NewVisitorTest(LiveServerTestCase):
         submit.click()
 
         self.wait_to_check_text_in_table('1. pptpd')
+        self.check_text_in_page("点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包")
         self.check_text_in_page("Virtual Private Network")
         self.check_text_in_page("VPN")
         self.check_text_in_page("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
-        
         inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
         inputbox.send_keys("xl2tpd")
