@@ -25,10 +25,10 @@ class NewCategoryTest(TestCase):
 
     data = {
         'new_service_name': 'pptpd',
-        'new_service_resume': '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包',
+        'new_service_resume': 'pptpd resume',
         'new_category_name': 'Virtual Private Network',
         'new_category_abbr': 'VPN',
-        'new_category_resume': '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
+        'new_category_resume': 'VPN resume'
     }
 
     def test_can_save_a_post_request(self):
@@ -37,13 +37,13 @@ class NewCategoryTest(TestCase):
         self.assertEqual(1, Service.objects.count())
         service = Service.objects.first()
         self.assertEqual(service.name, 'pptpd')
-        self.assertEqual(service.resume, '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包')
+        self.assertEqual(service.resume, 'pptpd resume')
 
         self.assertEqual(1, Category.objects.count())
         category = Category.objects.first()
         self.assertEqual(category.name, 'Virtual Private Network')
         self.assertEqual(category.abbr, 'VPN')
-        self.assertEqual(category.resume, '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。')
+        self.assertEqual(category.resume, 'VPN resume')
 
 
     def test_redirect_after_post(self):
@@ -82,23 +82,23 @@ class ViewCategoryTest(TestCase):
         category_vpn = Category.objects.create(
             name = 'Virtual Private Network',
             abbr = 'VPN',
-            resume = '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
+            resume = 'VPN resume'
         )
 
         response = self.client.get(f'/services/{category_vpn.pk}/')
         self.assertContains(response, 'Virtual Private Network')
         self.assertContains(response, 'VPN')
-        self.assertContains(response, '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'   )
+        self.assertContains(response, 'VPN resume')
 
         category_nat = Category.objects.create(
             name = 'NAT traversal',
             abbr = '内网穿透',
-            resume = '涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。'
+            resume = 'NAT resume'
         )
         response = self.client.get(f'/services/{category_nat.pk}/')
         self.assertContains(response, 'NAT traversal')
         self.assertContains(response, '内网穿透')
-        self.assertContains(response, '涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。'
+        self.assertContains(response, 'NAT resume'
         )
 
     def test_pass_correct_category(self):
@@ -142,17 +142,17 @@ class ServiceModelTest(TestCase):
         category = Category()
         category.name = 'Virtual Private Network'
         category.abbr = 'VPN'
-        category.resume = '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
+        category.resume = 'VPN resume'
         category.save()
 
         service_1 = Service()
         service_1.name = 'pptpd'
-        service_1.resume = '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包'
+        service_1.resume = 'pptpd resume'
         service_1.category = category 
         service_1.save()
         service_2 = Service()
         service_2.name = 'xl2tpd'
-        service_2.resume = 'xl2tpd is a FREE implementation of the Layer 2 Tunneling Protocol as defined by RFC 2661. L2TP allows you to tunnel PPP over UDP. Some ISPs use L2TP to tunnel user sessions from dial-in servers (modem banks, ADSL DSLAMs) to back-end PPP servers'
+        service_2.resume = 'xl2tpd resume'
         service_2.category = category
         service_2.save()
 
@@ -163,14 +163,14 @@ class ServiceModelTest(TestCase):
 
         self.assertEqual(saved_category.name, 'Virtual Private Network')
         self.assertEqual(saved_category.abbr, 'VPN')
-        self.assertEqual(saved_category.resume, '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。')
+        self.assertEqual(saved_category.resume, 'VPN resume')
 
 
         saved_service_1, saved_service_2 = saved_category.service_set.all() 
 
         self.assertEqual(saved_service_1.name, 'pptpd')
-        self.assertEqual(saved_service_1.resume, '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包')
+        self.assertEqual(saved_service_1.resume, 'pptpd resume')
         self.assertEqual(saved_service_1.category, category)
         self.assertEqual(saved_service_2.name, 'xl2tpd')
-        self.assertEqual(saved_service_2.resume, 'xl2tpd is a FREE implementation of the Layer 2 Tunneling Protocol as defined by RFC 2661. L2TP allows you to tunnel PPP over UDP. Some ISPs use L2TP to tunnel user sessions from dial-in servers (modem banks, ADSL DSLAMs) to back-end PPP servers')
+        self.assertEqual(saved_service_2.resume, 'xl2tpd resume')
         self.assertEqual(saved_service_2.category, category)
