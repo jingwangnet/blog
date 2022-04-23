@@ -41,14 +41,6 @@ class NewVisitorTest(LiveServerTestCase):
                 else:
                     time.sleep(0.2)
 
-    def check_text_in_dl(self, element, text):
-        dl = self.browser.find_element(By.ID, 'id_service_table')
-        rows = dl.find_elements(By.TAG_NAME, element)
-
-        self.assertIn(
-            text, 
-            [row.text for row in rows]
-        )
 
     def check_text_in_page(self, text ):
         page = self.browser.find_element(By.TAG_NAME, 'body').text
@@ -62,10 +54,12 @@ class NewVisitorTest(LiveServerTestCase):
     def test_start_services_and_retrieve_it_later(self):
         self.browser.get(self.live_server_url)
 
+        ## title and header
         self.assertIn("静网", self.browser.title)
         header = self.browser.find_element(By.TAG_NAME, 'h1').text
         self.assertIn("静网", header)
 
+        ## placeholder
         category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         self.assertEqual(
             category_name_inputbox.get_attribute('placeholder'),
@@ -159,8 +153,8 @@ class NewVisitorTest(LiveServerTestCase):
         page = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('pptpd', page)
         self.check_text_in_page('服务列表')
-        self.check_text_in_dl('dt', 'Virtual Private Network')
-        self.check_text_in_dl('dd', '1. pptpd')
+        self.check_text_in_page('Virtual Private Network')
+        self.check_text_in_page('1. pptpd')
 
         category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
@@ -196,10 +190,10 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('pptpd', page)
         self.assertIn('nps', page)
         self.check_text_in_page('服务列表')
-        self.check_text_in_dl('dt', 'Virtual Private Network')
-        self.check_text_in_dl('dd', '1. pptpd')
-        self.check_text_in_dl('dt', 'NAT traversal')
-        self.check_text_in_dl('dd', '1. nps')
+        self.check_text_in_page('Virtual Private Network')
+        self.check_text_in_page('1. pptpd')
+        self.check_text_in_page('NAT traversal')
+        self.check_text_in_page('1. nps')
 
         vpn_link = self.browser.find_element(By.LINK_TEXT, 'Virtual Private Network')
         vpn_link.click()
