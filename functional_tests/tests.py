@@ -99,16 +99,16 @@ class NewVisitorTest(LiveServerTestCase):
 
         category_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
-        category_resume_inputbox.send_keys("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
+        category_resume_inputbox.send_keys("vpn resume")
         service_inputbox.send_keys("pptpd")
-        service_resume_inputbox.send_keys("点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包")
+        service_resume_inputbox.send_keys("pptpd resume")
         submit.click()
 
         self.wait_to_check_text_in_table('1. pptpd')
-        self.check_text_in_page("点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包")
+        self.check_text_in_page("pptpd resume")
         self.check_text_in_page("Virtual Private Network")
         self.check_text_in_page("VPN")
-        self.check_text_in_page("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
+        self.check_text_in_page("vpn resume")
         inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
         inputbox.send_keys("xl2tpd")
@@ -132,7 +132,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         category_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
-        category_resume_inputbox.send_keys("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
+        category_resume_inputbox.send_keys("vpn resume")
         service_inputbox.send_keys("pptpd")
         submit.click()
 
@@ -142,7 +142,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.wait_to_check_text_in_table('1. pptpd')
         self.check_text_in_page("Virtual Private Network")
         self.check_text_in_page("VPN")
-        self.check_text_in_page("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
+        self.check_text_in_page("vpn resume")
 
         self.browser.quit()
         self.setUp()
@@ -163,14 +163,14 @@ class NewVisitorTest(LiveServerTestCase):
 
         category_inputbox.send_keys("NAT traversal")
         category_abbr_inputbox.send_keys("内网穿透")
-        category_resume_inputbox.send_keys("涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。")
+        category_resume_inputbox.send_keys("nat traversal resume")
         service_inputbox.send_keys("nps")
         submit.click()
 
         self.wait_to_check_text_in_table('1. nps')
         self.check_text_in_page("NAT traversal")
         self.check_text_in_page("内网穿透")
-        self.check_text_in_page("涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。")
+        self.check_text_in_page("nat traversal resume")
 
         TUNNEL_URL = self.browser.current_url
         self.assertRegex(VPN_URL, '/services/.+/')
@@ -197,7 +197,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.wait_to_check_text_in_table('1. pptpd')
         self.check_text_in_page("Virtual Private Network")
         self.check_text_in_page("VPN")
-        self.check_text_in_page("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
+        self.check_text_in_page("vpn resume")
 
     def test_layout_and_styling(self):
         self.browser.get(self.live_server_url)
@@ -217,7 +217,7 @@ class NewVisitorTest(LiveServerTestCase):
         
         category_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
-        category_resume_inputbox.send_keys("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
+        category_resume_inputbox.send_keys("vpn resume")
         service_inputbox.send_keys("pptpd")
         submit.click()
 
