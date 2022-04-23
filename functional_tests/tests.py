@@ -50,12 +50,11 @@ class NewVisitorTest(LiveServerTestCase):
             [row.text for row in rows]
         )
 
-    def check_text_in_element(self, text, element):
-        main = self.browser.find_element(By.TAG_NAME, 'main')
-        expect_text = main.find_element(By.TAG_NAME, element).text
+    def check_text_in_page(self, text ):
+        page = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn(
             text,
-            expect_text
+            page
         )
 
 
@@ -102,12 +101,13 @@ class NewVisitorTest(LiveServerTestCase):
         category_abbr_inputbox.send_keys("VPN")
         category_resume_inputbox.send_keys("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
         service_inputbox.send_keys("pptpd")
+        service_resume_inputbox.send_keys("点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包")
         submit.click()
 
         self.wait_to_check_text_in_table('1. pptpd')
-        self.check_text_in_element("Virtual Private Network", 'h1')
-        self.check_text_in_element("VPN", 'abbr')
-        self.check_text_in_element("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。", 'p')
+        self.check_text_in_page("Virtual Private Network")
+        self.check_text_in_page("VPN")
+        self.check_text_in_page("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
         
         inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         submit = self.browser.find_element(By.ID, 'id_submit')
@@ -121,8 +121,8 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         page = self.browser.find_element(By.TAG_NAME, 'body').text
-        self.check_text_in_element('服务列表', 'h1')
-        self.check_text_in_element('还有添加服务!', 'p')
+        self.check_text_in_page('服务列表')
+        self.check_text_in_page('还有添加服务!')
 
         category_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
@@ -140,9 +140,9 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertRegex(VPN_URL, '/services/.+/')
 
         self.wait_to_check_text_in_table('1. pptpd')
-        self.check_text_in_element("Virtual Private Network", 'h1')
-        self.check_text_in_element("VPN", 'abbr')
-        self.check_text_in_element("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。", 'p')
+        self.check_text_in_page("Virtual Private Network")
+        self.check_text_in_page("VPN")
+        self.check_text_in_page("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
 
         self.browser.quit()
         self.setUp()
@@ -151,7 +151,7 @@ class NewVisitorTest(LiveServerTestCase):
         
         page = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('pptpd', page)
-        self.check_text_in_element('服务列表', 'h1')
+        self.check_text_in_page('服务列表')
         self.check_text_in_dl('dt', 'Virtual Private Network')
         self.check_text_in_dl('dd', '1. pptpd')
 
@@ -168,9 +168,9 @@ class NewVisitorTest(LiveServerTestCase):
         submit.click()
 
         self.wait_to_check_text_in_table('1. nps')
-        self.check_text_in_element("NAT traversal", 'h1')
-        self.check_text_in_element("内网穿透", 'abbr')
-        self.check_text_in_element("涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。", 'p')
+        self.check_text_in_page("NAT traversal")
+        self.check_text_in_page("内网穿透")
+        self.check_text_in_page("涉及TCP/IP网络中的一个常见问题，即在处于使用了NAT设备的私有TCP/IP网络中的主机之间创建连接的问题。")
 
         TUNNEL_URL = self.browser.current_url
         self.assertRegex(VPN_URL, '/services/.+/')
@@ -185,7 +185,7 @@ class NewVisitorTest(LiveServerTestCase):
         page = self.browser.find_element(By.TAG_NAME, 'body').text
         self.assertIn('pptpd', page)
         self.assertIn('nps', page)
-        self.check_text_in_element('服务列表', 'h1')
+        self.check_text_in_page('服务列表')
         self.check_text_in_dl('dt', 'Virtual Private Network')
         self.check_text_in_dl('dd', '1. pptpd')
         self.check_text_in_dl('dt', 'NAT traversal')
@@ -195,9 +195,9 @@ class NewVisitorTest(LiveServerTestCase):
         vpn_link = self.browser.find_element(By.LINK_TEXT, 'Virtual Private Network')
         vpn_link.click()
         self.wait_to_check_text_in_table('1. pptpd')
-        self.check_text_in_element("Virtual Private Network", 'h1')
-        self.check_text_in_element("VPN", 'abbr')
-        self.check_text_in_element("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。", 'p')
+        self.check_text_in_page("Virtual Private Network")
+        self.check_text_in_page("VPN")
+        self.check_text_in_page("将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。")
 
     def test_layout_and_styling(self):
         self.browser.get(self.live_server_url)
