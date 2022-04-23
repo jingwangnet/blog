@@ -7,42 +7,12 @@
             <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
 {% endblock %}
 {% block table %}
-        <table id="id_service_table">
+        <article id="id_service_table">
             {% for service in category.service_set.all %}
-            <tr><td>{{ forloop.counter }}. {{ service.name }}</td></tr>
+            <article>
+              <h1>{{ forloop.counter }}. {{ service.name }}</h1>
+              <p>{{ service.resume }}</p>
+            </article>
             {% endfor %}
-        </table>
+        </article>
 {% endblock %}
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="device=device-width, initial=1.0">
-    <title>静网</title>
-</head>
-<body>
-    <header>
-    <a href="/"><h1>静网</h1></a>
-    </header>
-    <aside>
-    <form method="POST" action="/services/{{ category.pk }}/add">
-        <input id="id_new_service_name" name="new_service" type="text" placeholder="服务名">
-        <input id="id_submit" type="submit" value="提交">
-        {% csrf_token %}
-    </form>
-    </aside>
-    <main>
-        <header>
-            <h1>{{ category.name }}</h1>
-            <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
-        </head>
-        <table id="id_service_table">
-            {% for service in category.service_set.all %}
-            <tr><td>{{ forloop.counter }}. {{ service.name }}</td></tr>
-            {% endfor %}
-        </table>
-    </main>
-</body>
-</html>
--->

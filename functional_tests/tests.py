@@ -28,11 +28,11 @@ class NewVisitorTest(LiveServerTestCase):
         while True:
             try:
                 table = self.browser.find_element(By.ID, 'id_service_table')
-                rows = table.find_elements(By.TAG_NAME, 'tr')
+                articles = table.find_elements(By.TAG_NAME, 'article')
 
                 self.assertIn(
                     text, 
-                    [row.text for row in rows]
+                    [article.find_element(By.TAG_NAME, 'h1').text for article in articles]
                 )
                 return 
             except (WebDriverException, AssertionError) as e:

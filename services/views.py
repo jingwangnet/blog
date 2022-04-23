@@ -13,7 +13,11 @@ def new_cate(request):
         abbr = request.POST['new_category_abbr'],
         resume = request.POST['new_category_resume']
     )
-    Service.objects.create(name=request.POST['new_service'], category=category)
+    Service.objects.create(
+        name=request.POST['new_service'],
+        resume=request.POST['new_service_resume'],
+        category=category
+    )
     return redirect(f'/services/{category.pk}/')
 
 def view_cate(request, pk):

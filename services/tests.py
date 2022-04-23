@@ -62,17 +62,21 @@ class ViewCategoryTest(TestCase):
 
     def test_display_only_services_for_that_category(self):
         category_tunnel = Category.objects.create()
-        Service.objects.create(name="nps", category=category_tunnel)
-        Service.objects.create(name="frp", category=category_tunnel)
+        Service.objects.create(name="nps", resume="resume npns", category=category_tunnel)
+        Service.objects.create(name="frp", resume="resume frp", category=category_tunnel)
         category_vpn = Category.objects.create()
-        Service.objects.create(name="pptpd", category=category_vpn)
-        Service.objects.create(name="xl2ptd", category=category_vpn)
+        Service.objects.create(name="pptpd", resume="resume pptpd", category=category_vpn)
+        Service.objects.create(name="xl2ptd", resume="resume xl2ptd", category=category_vpn)
 
         response = self.client.get(f'/services/{category_vpn.pk}/')
         self.assertContains(response, 'pptpd')
         self.assertContains(response, 'xl2ptd')
+        self.assertContains(response, 'resume pptpd')
+        self.assertContains(response, 'resume xl2ptd')
         self.assertNotContains(response, 'nps')
         self.assertNotContains(response, 'frp')
+        self.assertNotContains(response, 'resume nps')
+        self.assertNotContains(response, 'resume frp')
 
     def test_can_display_categories(self):
         category_vpn = Category.objects.create(
@@ -137,12 +141,15 @@ class ServiceModelTest(TestCase):
         category.abbr = 'VPN'
         category.resume = '将专用网络延伸到公共网络上，使用户能够在共享或公共网络上发送和接收数据，就像他们的计算设备直接连接到专用网络上一样[1]。VPN的好处包括增加专用网络的功能、安全性和管理，它提供了对公共网络上无法访问的资源访问通常用于远程办公人员。加密很常见但不是VPN连接的固有部分。'
         category.save()
+
         service_1 = Service()
         service_1.name = 'pptpd'
+        service_1.resume = '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包'
         service_1.category = category 
         service_1.save()
         service_2 = Service()
         service_2.name = 'xl2tpd'
+        service_2.resume = 'xl2tpd is a FREE implementation of the Layer 2 Tunneling Protocol as defined by RFC 2661. L2TP allows you to tunnel PPP over UDP. Some ISPs use L2TP to tunnel user sessions from dial-in servers (modem banks, ADSL DSLAMs) to back-end PPP servers'
         service_2.category = category
         service_2.save()
 
@@ -159,6 +166,8 @@ class ServiceModelTest(TestCase):
         saved_service_1, saved_service_2 = saved_category.service_set.all() 
 
         self.assertEqual(saved_service_1.name, 'pptpd')
+        self.assertEqual(saved_service_1.resume, '点对点隧道协议(PPTP)是一种实现虚拟专用网(VPN)的方法。PPTP 在TCP之上使用一个控制通道和 GRE 隧道操作加密 PPP 数据包')
         self.assertEqual(saved_service_1.category, category)
         self.assertEqual(saved_service_2.name, 'xl2tpd')
+        self.assertEqual(saved_service_2.resume, 'xl2tpd is a FREE implementation of the Layer 2 Tunneling Protocol as defined by RFC 2661. L2TP allows you to tunnel PPP over UDP. Some ISPs use L2TP to tunnel user sessions from dial-in servers (modem banks, ADSL DSLAMs) to back-end PPP servers')
         self.assertEqual(saved_service_2.category, category)

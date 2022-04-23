@@ -8,4 +8,5 @@ class Category(models.Model):
 
 class Service(models.Model):
     name = models.CharField(verbose_name="服务名", max_length=20)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name="服务分类", on_delete=models.CASCADE)
+    resume = models.TextField(verbose_name="服务简介")
