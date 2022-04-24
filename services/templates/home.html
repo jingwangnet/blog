@@ -4,7 +4,7 @@
 {% block header %}<h1>服务列表</h1>{% endblock %}
 {% block table %}
     <article id="id_service_table">
-    {% regroup services by category as category_list %}
+    {% regroup services|dictsort:"category.name" by category as category_list %}
       {% for category, category_services in category_list %}
       <section>
         <header>
