@@ -29,12 +29,10 @@ body {
 	min-height: 100vh;
 	flex-direction: column; 
     
-    > header, main, footer {
-        padding: 1rem;
-    }
 
     >header {
         background: $primary;
+        padding: 1rem;
         div.logo {
             a {
                 text-decoration: none;
@@ -48,7 +46,7 @@ body {
     >main {
         flex: 1;
         > header {
-            padding: 3rem 0;
+            padding: 3rem 1rem;
             align-items: center;
             h1 {
                 @extend .display-1;
@@ -61,9 +59,9 @@ body {
         }
 
         > article {
+            padding: 1rem 0;
             @extend .bg-secondary;
             @extend .bg-opacity-10;
-            padding: 1rem;
             margin-bottom: 1rem;
             > article {
                 @extend .bg-secondary;
@@ -71,7 +69,7 @@ body {
             }
             > section, >article {
                 padding: 1rem;
-                margin-bottom: 1rem;
+                margin: 1rem;
                 &:last-child {
                     margin-bottom: 0rem;
                 }
@@ -104,6 +102,7 @@ body {
         >aside {
             @extend .bg-secondary;
             @extend .bg-opacity-10;
+            padding: 1rem;
 
             form {
                 padding: 1rem;
@@ -122,5 +121,11 @@ body {
             }
 
         }
+    }
+    footer {
+        p {
+            padding: 1rem;
+        }
+
     }
 }
