@@ -102,20 +102,22 @@ body {
         }
 
         >aside {
-            padding: 1rem;
             @extend .bg-secondary;
             @extend .bg-opacity-10;
 
             form {
-                * {
-                    margin-bottom: 1rem;
+                padding: 1rem;
+                fieldset{
                     &:last-child {
                         margin-bottom: 0rem;
                     }
-                }
-                input, textarea {
-                    display: block;
-                    width: 70%;
+                    input, textarea {
+                        display: block;
+                        margin: 1rem 0;
+                        width: 70%;
+                        @extend .border;
+                        padding: 1rem;
+                    }
                 }
             }
 
