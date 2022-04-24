@@ -219,7 +219,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         self.assertAlmostEqual(
              service_name_inputbox.size['width'] / 768,
-             0.7,
+             0.9,
              delta=0.2
         )
         
@@ -235,6 +235,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
         service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         self.assertAlmostEqual(
              service_name_inputbox.size['width'] / 768,
-             0.7,
+             0.9,
              delta=0.2
         )

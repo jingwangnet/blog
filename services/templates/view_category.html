@@ -9,7 +9,7 @@
 {% block table %}
     <article id="id_service_table">
       {% for service in category.service_set.all %}
-      <article>
+      <article class="service">
         <h1>{{ forloop.counter }}. {{ service.name }}</h1>
         <p>{{ service.resume }}</p>
       </article>

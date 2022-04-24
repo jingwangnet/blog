@@ -32,8 +32,8 @@ body {
 
     >header {
         background: $primary;
-        padding: 1rem;
         div.logo {
+            padding: 1rem;
             a {
                 text-decoration: none;
                 color: $white;
@@ -47,7 +47,7 @@ body {
         flex: 1;
         > header {
             padding: 3rem 1rem;
-            align-items: center;
+            text-align: center;
             h1 {
                 @extend .display-1;
             }
@@ -60,16 +60,15 @@ body {
 
         > article {
             padding: 1rem 0;
-            @extend .bg-secondary;
-            @extend .bg-opacity-10;
             margin-bottom: 1rem;
-            > article {
-                @extend .bg-secondary;
-                @extend .bg-opacity-25;
+            
+            > article.service {
+                    @extend .border;
+                    margin: 1rem;
             }
             > section, >article {
                 padding: 1rem;
-                margin: 1rem;
+                margin: 1rem 0;
                 &:last-child {
                     margin-bottom: 0rem;
                 }
@@ -87,8 +86,7 @@ body {
                 }
 
                 > article {
-                    @extend .bg-secondary;
-                    @extend .bg-opacity-25;
+                    @extend .border;
                     padding: 1rem;
                     margin-bottom: 1rem;
                     &:last-child {
@@ -102,7 +100,7 @@ body {
         >aside {
             @extend .bg-secondary;
             @extend .bg-opacity-10;
-            padding: 1rem;
+            padding: 1rem 0;
 
             form {
                 padding: 1rem;
@@ -113,7 +111,7 @@ body {
                     input, textarea {
                         display: block;
                         margin: 1rem 0;
-                        width: 70%;
+                        min-width: 100%;
                         @extend .border;
                         padding: 1rem;
                     }
