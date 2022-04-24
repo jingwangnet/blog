@@ -2,7 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import unittest
 import os
 import time
@@ -10,7 +12,7 @@ import time
 
 MAX_TIME = 5
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
    
     def setUp(self):
         if os.environ.get('HEADLESS', False):
@@ -57,7 +59,7 @@ class NewVisitorTest(LiveServerTestCase):
         ## title and header
         self.assertIn("静网", self.browser.title)
         header = self.browser.find_element(By.TAG_NAME, 'h1').text
-        self.assertIn("静网", header)
+        self.assertIn("服务列表", header)
 
         ## placeholder
         category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
@@ -70,9 +72,9 @@ class NewVisitorTest(LiveServerTestCase):
             category_abbr_inputbox.get_attribute('placeholder'),
             "服务类型名缩写"
         )
-        category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
+        category_resume_textarea = self.browser.find_element(By.ID, 'id_new_category_resume')
         self.assertEqual(
-            category_resume_inputbox.get_attribute('placeholder'),
+            category_resume_textarea.get_attribute('placeholder'),
             "服务类型简介"
         )
         service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
@@ -80,9 +82,9 @@ class NewVisitorTest(LiveServerTestCase):
             service_name_inputbox.get_attribute('placeholder'),
             "服务名"
         )
-        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
+        service_resume_textarea = self.browser.find_element(By.ID, 'id_new_service_resume')
         self.assertEqual(
-            service_resume_inputbox.get_attribute('placeholder'),
+            service_resume_textarea.get_attribute('placeholder'),
             "服务简介"
         )
         submit = self.browser.find_element(By.ID, 'id_submit')
@@ -93,10 +95,10 @@ class NewVisitorTest(LiveServerTestCase):
 
         category_name_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
-        category_resume_inputbox.send_keys("vpn resume")
+        category_resume_textarea.send_keys("vpn resume")
         service_name_inputbox.send_keys("pptpd")
-        service_resume_inputbox.send_keys("pptpd resume")
-        submit.click()
+        service_resume_textarea.send_keys("pptpd resume")
+        submit.send_keys(Keys.ENTER)
 
         self.wait_to_check_text_in_table('1. pptpd')
         self.check_text_in_page("pptpd resume")
@@ -105,11 +107,11 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_text_in_page("vpn resume")
 
         service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
-        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
+        service_resume_textarea = self.browser.find_element(By.ID, 'id_new_service_resume')
         submit = self.browser.find_element(By.ID, 'id_submit')
         service_name_inputbox.send_keys("xl2tpd")
-        service_resume_inputbox.send_keys("xl2tpd resume")
-        submit.click()
+        service_resume_textarea.send_keys("xl2tpd resume")
+        submit.send_keys(Keys.ENTER)
 
         self.wait_to_check_text_in_table('2. xl2tpd')
         self.wait_to_check_text_in_table('1. pptpd')
@@ -125,17 +127,17 @@ class NewVisitorTest(LiveServerTestCase):
 
         category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
-        category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
+        category_resume_textarea = self.browser.find_element(By.ID, 'id_new_category_resume')
         service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
-        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
+        service_resume_textarea = self.browser.find_element(By.ID, 'id_new_service_resume')
         submit = self.browser.find_element(By.ID, 'id_submit')
 
         category_name_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
-        category_resume_inputbox.send_keys("vpn resume")
+        category_resume_textarea.send_keys("vpn resume")
         service_name_inputbox.send_keys("pptpd")
-        service_resume_inputbox.send_keys("pptpd resume")
-        submit.click()
+        service_resume_textarea.send_keys("pptpd resume")
+        submit.send_keys(Keys.ENTER)
 
         VPN_URL = self.browser.current_url
         self.assertRegex(VPN_URL, '/services/.+/')
@@ -159,17 +161,17 @@ class NewVisitorTest(LiveServerTestCase):
 
         category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
-        category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
+        category_resume_textarea = self.browser.find_element(By.ID, 'id_new_category_resume')
         service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
-        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
+        service_resume_textarea = self.browser.find_element(By.ID, 'id_new_service_resume')
         submit = self.browser.find_element(By.ID, 'id_submit')
-
+       
         category_name_inputbox.send_keys("NAT traversal")
         category_abbr_inputbox.send_keys("内网穿透")
-        category_resume_inputbox.send_keys("nat traversal resume")
+        category_resume_textarea.send_keys("nat traversal resume")
         service_name_inputbox.send_keys("nps")
-        service_resume_inputbox.send_keys("nps resume")
-        submit.click()
+        service_resume_textarea.send_keys("nps resume")
+        submit.send_keys(Keys.ENTER)
 
         self.wait_to_check_text_in_table('1. nps')
         self.check_text_in_page("NAT traversal")
@@ -210,29 +212,29 @@ class NewVisitorTest(LiveServerTestCase):
 
         category_name_inputbox = self.browser.find_element(By.ID, 'id_new_category_name')
         category_abbr_inputbox = self.browser.find_element(By.ID, 'id_new_category_abbr')
-        category_resume_inputbox = self.browser.find_element(By.ID, 'id_new_category_resume')
+        category_resume_textarea = self.browser.find_element(By.ID, 'id_new_category_resume')
         service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
-        service_resume_inputbox = self.browser.find_element(By.ID, 'id_new_service_resume')
+        service_resume_textarea = self.browser.find_element(By.ID, 'id_new_service_resume')
         submit = self.browser.find_element(By.ID, 'id_submit')
 
         self.assertAlmostEqual(
              service_name_inputbox.size['width'] / 768,
              0.7,
-             delta=0.1
+             delta=0.2
         )
         
         category_name_inputbox.send_keys("Virtual Private Network")
         category_abbr_inputbox.send_keys("VPN")
-        category_resume_inputbox.send_keys("vpn resume")
+        category_resume_textarea.send_keys("vpn resume")
         service_name_inputbox.send_keys("pptpd")
-        service_resume_inputbox.send_keys("pptpd resume")
-        submit.click()
+        service_resume_textarea.send_keys("pptpd resume")
+        submit.send_keys(Keys.ENTER)
 
         self.wait_to_check_text_in_table('1. pptpd')
 
-        inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
+        service_name_inputbox = self.browser.find_element(By.ID, 'id_new_service_name')
         self.assertAlmostEqual(
-             inputbox.size['width'] / 768,
+             service_name_inputbox.size['width'] / 768,
              0.7,
-             delta=0.1
+             delta=0.2
         )

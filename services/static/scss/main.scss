@@ -24,3 +24,101 @@
 @import "../node_modules/bootstrap/scss/utilities/api";
 
 // 6. Add additional custom code here
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column; 
+    
+    > header, main, footer {
+        padding: 1rem;
+    }
+
+    >header {
+        background: $primary;
+        div.logo {
+            a {
+                text-decoration: none;
+                color: $white;
+                @extend .h1;
+            }
+
+        }
+    }
+
+    >main {
+        flex: 1;
+        > header {
+            padding: 3rem 0;
+            align-items: center;
+            h1 {
+                @extend .display-1;
+            }
+            p {
+                @extend .lead;
+                @extend .display-5;
+            }
+
+        }
+
+        > article {
+            @extend .bg-secondary;
+            @extend .bg-opacity-10;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            > article {
+                @extend .bg-secondary;
+                @extend .bg-opacity-25;
+            }
+            > section, >article {
+                padding: 1rem;
+                margin-bottom: 1rem;
+                &:last-child {
+                    margin-bottom: 0rem;
+                }
+
+                > header {
+                    padding: 1rem;
+                    h1 {
+                        a {
+                            text-decoration: none;
+                        }
+                    }
+                    p {
+                        @extend .lead;
+                    }
+                }
+
+                > article {
+                    @extend .bg-secondary;
+                    @extend .bg-opacity-25;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                    &:last-child {
+                        margin-bottom: 0rem;
+                    }
+                }
+
+            }
+        }
+
+        >aside {
+            padding: 1rem;
+            @extend .bg-secondary;
+            @extend .bg-opacity-10;
+
+            form {
+                * {
+                    margin-bottom: 1rem;
+                    &:last-child {
+                        margin-bottom: 0rem;
+                    }
+                }
+                input, textarea {
+                    display: block;
+                    width: 70%;
+                }
+            }
+
+        }
+    }
+}

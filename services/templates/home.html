@@ -3,23 +3,23 @@
 {% block action_url %}/services/new{% endblock %}
 {% block header %}<h1>服务列表</h1>{% endblock %}
 {% block table %}
-  <aticle id="id_service_table">
-  {% regroup services by category as category_list %}
-    {% for category, category_services in category_list %}
-    <section>
-      <header>
-        <h1><a href="{% url 'services:view' category.pk %}">{{ category.name }}</a><h1>
-        <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
-      </header>
-      {% for service in category_services %}
-      <article>
-        <h1>{{ forloop.counter }}. {{ service.name }}</h1>
-        <p>{{ service.resume }}</p>
-      </article>
+    <article id="id_service_table">
+    {% regroup services by category as category_list %}
+      {% for category, category_services in category_list %}
+      <section>
+        <header>
+          <h1><a href="{% url 'services:view' category.pk %}">{{ category.name }}</a></h1>
+          <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
+        </header>
+        {% for service in category_services %}
+        <article>
+          <h1>{{ forloop.counter }}. {{ service.name }}</h1>
+          <p>{{ service.resume }}</p>
+        </article>
+        {% endfor %}
+      </section>
+      {% empty %}
+      <p>还有添加服务!</p>   
       {% endfor %}
-    </section>
-    {% empty %}
-    <p>还有添加服务!</p>   
-    {% endfor %}
-  </article>
+    </article>
 {% endblock %}
