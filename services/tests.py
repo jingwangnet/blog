@@ -218,3 +218,23 @@ class ServiceModelTest(TestCase):
         with self.assertRaises(Exception):
             category.save()
             category.full_clean()
+
+    def test_category_can_not_have_the_same_abbr_field(self):
+        other_category = Category.objects.create(
+            name = 'Virtual Private Network',
+            abbr = 'VPN',
+            resume = 'VPN resume'
+        )
+
+        category = Category(
+            name = 'Virtual Private Network',
+            abbr = 'VPN',
+            resume = 'VPN resume'
+        )
+        with self.assertRaises(Exception):
+            category.save()
+            category.full_clean()
+
+
+
+        
