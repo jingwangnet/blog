@@ -140,7 +140,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         submit.send_keys(Keys.ENTER)
 
         VPN_URL = self.browser.current_url
-        self.assertRegex(VPN_URL, '/services/.+/')
+        self.assertRegex(VPN_URL, '/services/[^0-9]+/')
 
         self.wait_to_check_text_in_table('1. pptpd')
         self.check_text_in_page("pptpd resume")
@@ -180,7 +180,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.check_text_in_page("nps resume")
 
         TUNNEL_URL = self.browser.current_url
-        self.assertRegex(VPN_URL, '/services/.+/')
+        self.assertRegex(VPN_URL, '/services/[^0-9]+/')
         self.assertNotEqual(TUNNEL_URL, VPN_URL)
 
         page = self.browser.find_element(By.TAG_NAME, 'body').text

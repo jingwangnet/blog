@@ -3,6 +3,7 @@ from django.http import HttpRequest
 from django.urls import resolve
 from .views import home_page
 from .models import Service, Category
+from django.utils.text import slugify
 
 # Create your tests here.
 class HomePageTest(TestCase):
@@ -51,7 +52,7 @@ class NewCategoryTest(TestCase):
         category = Category.objects.first()
          
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], f'/services/{category.pk}/')
+        self.assertEqual(response['location'], f'/services/{category.slug}/')
 
 class ViewCategoryTest(TestCase):
 
@@ -163,6 +164,7 @@ class ServiceModelTest(TestCase):
 
         self.assertEqual(saved_category.name, 'Virtual Private Network')
         self.assertEqual(saved_category.abbr, 'VPN')
+        self.assertEqual(saved_category.slug, 'vpn')
         self.assertEqual(saved_category.resume, 'VPN resume')
 
 
