@@ -41,7 +41,9 @@ body {
                 @extend .h1;
                 margin: 0;
             }
-
+        }
+        @include media-breakpoint-up(lg) {
+            @include make-container(400px);
         }
     }
 
@@ -63,6 +65,9 @@ body {
                 @extend .lead;
                 text-align: left;
                 padding: 0 1rem;
+            }
+            @include media-breakpoint-up(lg) {
+                @include make-container(416px);
             }
         }
 
@@ -118,6 +123,9 @@ body {
                     align-items: stretch;
                     gap: 1rem;
                 }
+                @include media-breakpoint-up(lg) {
+                    @include make-container(416px);
+                }
                 > article.service {
                     @extend .border;
                     margin: 1rem;
@@ -127,6 +135,9 @@ body {
                         flex: 1 1 48%;
                     }
                 }
+            }
+            @include media-breakpoint-up(lg) {
+                @include make-container(400px);
             }
             
         }
@@ -138,6 +149,9 @@ body {
 
             form {
                 padding: 1rem;
+                @include media-breakpoint-up(lg) {
+                    @include make-container(416px);
+                }
                 div.fieldset {
                     @include media-breakpoint-up(md) { 
                         display: flex;
@@ -175,5 +189,8 @@ body {
             padding: 1rem;
         }
 
+        @include media-breakpoint-up(lg) {
+            @include make-container(400px);
+        }
     }
 }
