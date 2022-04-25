@@ -74,6 +74,13 @@ body {
                 &:last-child {
                     margin-bottom: 0rem;
                 }
+                @include media-breakpoint-up(md) { 
+                    display: flex;
+                    flex-flow: row wrap;
+                    align-content: stretch;
+                    align-items: stretch;
+                    gap: 1rem;
+                }
 
                 > header {
                     h1 {
@@ -90,19 +97,35 @@ body {
                     @extend .border;
                     padding: 1rem;
                     margin-bottom: 1rem;
+                    @include media-breakpoint-up(md) { 
+                        margin: 0;
+                    }
                     &:last-child {
                         margin-bottom: 0rem;
+                    }
+                    @include media-breakpoint-up(md) { 
+                        flex: 1 1 48%;
                     }
                 }
 
             }
             &.view_category {
                 padding: 1rem;
+                @include media-breakpoint-up(md) { 
+                    display: flex;
+                    flex-flow: row wrap;
+                    align-content: stretch;
+                    align-items: stretch;
+                    gap: 1rem;
+                }
                 > article.service {
                     @extend .border;
                     margin: 1rem;
                     padding: 1rem;
                     margin: 1rem 0;
+                    @include media-breakpoint-up(md) { 
+                        flex: 1 1 48%;
+                    }
                 }
             }
             
@@ -115,16 +138,32 @@ body {
 
             form {
                 padding: 1rem;
-                fieldset{
-                    &:last-child {
-                        margin-bottom: 0rem;
+                div.fieldset {
+                    @include media-breakpoint-up(md) { 
+                        display: flex;
+                        flex-flow: row wrap;
+                        align-content: stretch;
+                        gap: 1rem;
                     }
-                    input, textarea {
-                        display: block;
-                        margin: 1rem 0;
-                        min-width: 100%;
-                        @extend .border;
-                        padding: 1rem;
+                    fieldset{
+                        &:last-child {
+                            margin-bottom: 0rem;
+                        }
+                        @include media-breakpoint-up(md) { 
+                            flex: 1 1 48%;
+                            max-width: 50%;
+                        }
+                        input, textarea {
+                            display: block;
+                            margin: 1rem 0;
+                            min-width: 100%;
+                            @extend .border;
+                            padding: 1rem;
+                        }
+
+                        textarea {
+                            height: 10rem;
+                        }
                     }
                 }
             }
