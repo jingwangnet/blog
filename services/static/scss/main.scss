@@ -33,11 +33,13 @@ body {
     >header {
         background: $primary;
         div.logo {
-            padding: 1rem;
             a {
                 text-decoration: none;
                 color: $white;
+                display: block;
+                padding: 1rem;
                 @extend .h1;
+                margin: 0;
             }
 
         }
@@ -46,27 +48,27 @@ body {
     >main {
         flex: 1;
         > header {
-            padding: 3rem 1rem;
             text-align: center;
+            min-height: 30vh;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            align-content: center;
             h1 {
                 @extend .display-1;
+                text-align: center;
+                padding: 0 1rem;
             }
             p {
                 @extend .lead;
-                @extend .display-5;
+                text-align: left;
+                padding: 0 1rem;
             }
-
         }
 
-        > article {
-            padding: 1rem 0;
+        > article#id_service_table {
             margin-bottom: 1rem;
-            
-            > article.service {
-                    @extend .border;
-                    margin: 1rem;
-            }
-            > section, >article {
+            > section {
                 padding: 1rem;
                 margin: 1rem 0;
                 &:last-child {
@@ -74,7 +76,6 @@ body {
                 }
 
                 > header {
-                    padding: 1rem;
                     h1 {
                         a {
                             text-decoration: none;
@@ -95,6 +96,16 @@ body {
                 }
 
             }
+            &.view_category {
+                padding: 1rem;
+                > article.service {
+                    @extend .border;
+                    margin: 1rem;
+                    padding: 1rem;
+                    margin: 1rem 0;
+                }
+            }
+            
         }
 
         >aside {
