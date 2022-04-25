@@ -8,7 +8,7 @@
       {% for category, category_services in category_list %}
       <section>
         <header>
-          <h1><a href="{% url 'services:view' category.pk %}">{{ category.name }}</a></h1>
+          <h1><a href="{% url 'services:view' category.slug %}">{{ category.name }}</a></h1>
           <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
         </header>
         <div class="wrapper">

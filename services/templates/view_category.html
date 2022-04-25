@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}静网{% endblock %}
-{% block action_url %}/services/{{ category.pk }}/add{% endblock %}
+{% block action_url %}/services/{{ category.slug }}/add{% endblock %}
 {% block input_category %}{% endblock %}
 {% block header %}
       <h1>{{ category.name }}</h1>

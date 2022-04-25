@@ -19,8 +19,8 @@ from .views import *
 
 urlpatterns = [
     path('new', new_cate, name="new"),
-    path('<int:pk>/', view_cate, name="view"),
-    path('<int:pk>/add', add_ser, name="add"),
+    path('<slug:slug>/', view_cate, name="view"),
+    path('<slug:slug>/add', add_ser, name="add"),
 ]
 
 app_name = 'services'

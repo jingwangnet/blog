@@ -13,7 +13,11 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def test_display_all_items(self):
-        category = Category.objects.create()
+        category = Category.objects.create(
+            name = 'Virtual Private Network',
+            abbr = 'VPN',
+            resume = 'VPN resume'
+        )
         Service.objects.create(name="pptpd", category=category)
         Service.objects.create(name="xl2ptd", category=category)
 
@@ -57,19 +61,31 @@ class NewCategoryTest(TestCase):
 class ViewCategoryTest(TestCase):
 
     def test_use_view_catetory_template(self):
-        category = Category.objects.create()
-        response = self.client.get(f'/services/{category.pk}/')
+        category = Category.objects.create(
+            name="VPN",
+            abbr="VPN abbr",
+            resume="VPN resume"
+        )
+        response = self.client.get(f'/services/{category.slug}/')
         self.assertTemplateUsed(response, 'view_category.html')
 
     def test_display_only_services_for_that_category(self):
-        category_tunnel = Category.objects.create()
+        category_tunnel = Category.objects.create(
+            name = 'NAT traversal',
+            abbr = '内网穿透',
+            resume = 'NAT resume'
+        )
         Service.objects.create(name="nps", resume="resume npns", category=category_tunnel)
         Service.objects.create(name="frp", resume="resume frp", category=category_tunnel)
-        category_vpn = Category.objects.create()
+        category_vpn = Category.objects.create(
+            name="VPN",
+            abbr="VPN abbr",
+            resume="VPN resume"
+        )
         Service.objects.create(name="pptpd", resume="resume pptpd", category=category_vpn)
         Service.objects.create(name="xl2ptd", resume="resume xl2ptd", category=category_vpn)
 
-        response = self.client.get(f'/services/{category_vpn.pk}/')
+        response = self.client.get(f'/services/{category_vpn.slug}/')
         self.assertContains(response, 'pptpd')
         self.assertContains(response, 'xl2ptd')
         self.assertContains(response, 'resume pptpd')
@@ -86,7 +102,7 @@ class ViewCategoryTest(TestCase):
             resume = 'VPN resume'
         )
 
-        response = self.client.get(f'/services/{category_vpn.pk}/')
+        response = self.client.get(f'/services/{category_vpn.slug}/')
         self.assertContains(response, 'Virtual Private Network')
         self.assertContains(response, 'VPN')
         self.assertContains(response, 'VPN resume')
@@ -96,30 +112,46 @@ class ViewCategoryTest(TestCase):
             abbr = '内网穿透',
             resume = 'NAT resume'
         )
-        response = self.client.get(f'/services/{category_nat.pk}/')
+        response = self.client.get(f'/services/{category_nat.slug}/')
         self.assertContains(response, 'NAT traversal')
         self.assertContains(response, '内网穿透')
         self.assertContains(response, 'NAT resume'
         )
 
     def test_pass_correct_category(self):
-        other_category = Category.objects.create()
-        category = Category.objects.create()
-        response = self.client.get(f'/services/{category.pk}/')
+        other_category = Category.objects.create(
+            name = 'NAT traversal',
+            abbr = '内网穿透',
+            resume = 'NAT resume'
+        )
+        category = Category.objects.create(
+            name = 'Virtual Private Network',
+            abbr = 'VPN',
+            resume = 'VPN resume'
+        )
+        response = self.client.get(f'/services/{category.slug}/')
 
         self.assertEqual(response.context['category'], category)
 
 
-class AddServicetest(TestCase):
+class AddServiceTest(TestCase):
 
     def test_can_save_a_post_request_to_an_exsiting_category(self):
-        other_category = Category.objects.create()
-        category = Category.objects.create()
+        other_category = Category.objects.create(
+            name = 'NAT traversal',
+            abbr = '内网穿透',
+            resume = 'NAT resume'
+        )
+        category = Category.objects.create(
+            name = 'Virtual Private Network',
+            abbr = 'VPN',
+            resume = 'VPN resume'
+        )
         data = {
             'new_service_name': 'A service',
             'new_service_resume': 'A service resume'
         }
-        response = self.client.post(f'/services/{category.pk}/add', data=data)
+        response = self.client.post(f'/services/{category.slug}/add', data=data)
      
         self.assertEqual(1, Service.objects.count())
         service = Service.objects.first()
@@ -127,15 +159,19 @@ class AddServicetest(TestCase):
         self.assertEqual(service.resume, 'A service resume')
 
     def test_redirect_after_post(self):
-        category = Category.objects.create()
+        category = Category.objects.create(
+            name = 'Virtual Private Network',
+            abbr = 'VPN',
+            resume = 'VPN resume'
+        )
         data = {
             'new_service_name': 'A service',
             'new_service_resume': 'A service resume'
         }
-        response = self.client.post(f'/services/{category.pk}/add', data=data)
+        response = self.client.post(f'/services/{category.slug}/add', data=data)
          
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], f'/services/{category.pk}/')
+        self.assertEqual(response['location'], f'/services/{category.slug}/')
 
 class ServiceModelTest(TestCase):
 
@@ -176,3 +212,9 @@ class ServiceModelTest(TestCase):
         self.assertEqual(saved_service_2.name, 'xl2tpd')
         self.assertEqual(saved_service_2.resume, 'xl2tpd resume')
         self.assertEqual(saved_service_2.category, category)
+
+    def test_category_can_not_have_none_slug_field(self):
+        category = Category()
+        with self.assertRaises(Exception):
+            category.save()
+            category.full_clean()

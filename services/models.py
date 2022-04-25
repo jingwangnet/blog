@@ -4,10 +4,10 @@ from pypinyin import lazy_pinyin
 
 # Create your models here.
 class Category(models.Model):
-    name = models.CharField(verbose_name="分类名", max_length=20)
-    abbr = models.CharField(verbose_name="分类名缩写", max_length=20)
-    resume = models.TextField(verbose_name="分类简介")
-    slug = models.SlugField(verbose_name="Slug")
+    name = models.CharField(verbose_name="分类名", max_length=20, null=False)
+    abbr = models.CharField(verbose_name="分类名缩写", max_length=20, null=False)
+    resume = models.TextField(verbose_name="分类简介", default='')
+    slug = models.SlugField(verbose_name="Slug", null=False)
 
     def save(self, *args, **kwargs):
         self.slug = slugify("-".join(lazy_pinyin(self.abbr)))

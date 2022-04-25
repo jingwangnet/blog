@@ -18,19 +18,19 @@ def new_cate(request):
         resume=request.POST['new_service_resume'],
         category=category
     )
-    return redirect(f'/services/{category.pk}/')
+    return redirect(f'/services/{category.slug}/')
 
-def view_cate(request, pk):
-    category = Category.objects.get(pk=pk)
+def view_cate(request, slug):
+    category = Category.objects.get(slug=slug)
     services = Service.objects.filter(category=category)
     context = {'category': category}
     return render(request, 'view_category.html', context)
 
-def add_ser(request, pk):
-    category = Category.objects.get(pk=pk)
+def add_ser(request, slug):
+    category = Category.objects.get(slug=slug)
     Service.objects.create(
         name=request.POST['new_service_name'],
         resume=request.POST['new_service_resume'],
         category=category
     )
-    return redirect(f'/services/{category.pk}/')
+    return redirect(f'/services/{category.slug}/')
