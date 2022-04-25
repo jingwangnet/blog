@@ -11,12 +11,14 @@
           <h1><a href="{% url 'services:view' category.pk %}">{{ category.name }}</a></h1>
           <p><abbr title="{{ category.name }}">{{ category.abbr }}</abbr>{{ category.resume }}</p>
         </header>
-        {% for service in category_services %}
-        <article>
-          <h1>{{ forloop.counter }}. {{ service.name }}</h1>
-          <p>{{ service.resume }}</p>
-        </article>
-        {% endfor %}
+        <div class="wrapper">
+          {% for service in category_services %}
+          <article>
+            <h1>{{ forloop.counter }}. {{ service.name }}</h1>
+            <p>{{ service.resume }}</p>
+          </article>
+          {% endfor %}
+        </div>
       </section>
       {% empty %}
       <section>

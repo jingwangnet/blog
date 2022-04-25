@@ -79,13 +79,6 @@ body {
                 &:last-child {
                     margin-bottom: 0rem;
                 }
-                @include media-breakpoint-up(md) { 
-                    display: flex;
-                    flex-flow: row wrap;
-                    align-content: stretch;
-                    align-items: stretch;
-                    gap: 1rem;
-                }
 
                 > header {
                     h1 {
@@ -98,18 +91,23 @@ body {
                     }
                 }
 
-                > article {
-                    @extend .border;
-                    padding: 1rem;
-                    margin-bottom: 1rem;
+                div.wrapper {
                     @include media-breakpoint-up(md) { 
-                        margin: 0;
+                        display: grid;
+                        grid-template-columns: 1fr 1fr ;
+                        grid-auto-rows: minmax(250px, auto);
+                        gap: 10px;
                     }
-                    &:last-child {
-                        margin-bottom: 0rem;
-                    }
-                    @include media-breakpoint-up(md) { 
-                        flex: 1 1 48%;
+                    > article {
+                        @extend .border;
+                        padding: 1rem;
+                        margin-bottom: 1rem;
+                        @include media-breakpoint-up(md) { 
+                            margin: 0;
+                        }
+                        &:last-child {
+                            margin-bottom: 0rem;
+                        }
                     }
                 }
 
@@ -117,11 +115,10 @@ body {
             &.view_category {
                 padding: 1rem;
                 @include media-breakpoint-up(md) { 
-                    display: flex;
-                    flex-flow: row wrap;
-                    align-content: stretch;
-                    align-items: stretch;
-                    gap: 1rem;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr ;
+                    grid-auto-rows: minmax(250px, auto);
+                    gap: 10px;
                 }
                 @include media-breakpoint-up(lg) {
                     @include make-container(416px);
@@ -132,7 +129,7 @@ body {
                     padding: 1rem;
                     margin: 1rem 0;
                     @include media-breakpoint-up(md) { 
-                        flex: 1 1 48%;
+                        margin: 0;
                     }
                 }
             }
