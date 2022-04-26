@@ -21,4 +21,10 @@ class Category(models.Model):
 class Service(models.Model):
     name = models.CharField(verbose_name="服务名", max_length=20)
     category = models.ForeignKey(Category, verbose_name="服务分类", on_delete=models.CASCADE)
+    abbr = models.CharField(
+        verbose_name="服务名缩写", 
+        max_length=20, 
+        null=False, 
+        unique=True
+    )
     resume = models.TextField(verbose_name="服务简介")

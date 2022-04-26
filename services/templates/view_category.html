@@ -11,7 +11,7 @@
       {% for service in category.service_set.all %}
       <article class="service">
         <h1>{{ forloop.counter }}. {{ service.name }}</h1>
-        <p>{{ service.resume }}</p>
+        <p><abbr title="{{ service.name }}">{{ service.abbr }}</abbr>{{ service.resume }}</p>
       </article>
       {% empty %}
       <article>

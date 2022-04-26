@@ -15,6 +15,7 @@ def new_cate(request):
     )
     Service.objects.create(
         name=request.POST['new_service_name'],
+        abbr = request.POST['new_service_abbr'],
         resume=request.POST['new_service_resume'],
         category=category
     )
@@ -30,6 +31,7 @@ def add_ser(request, slug):
     category = Category.objects.get(slug=slug)
     Service.objects.create(
         name=request.POST['new_service_name'],
+        abbr = request.POST['new_service_abbr'],
         resume=request.POST['new_service_resume'],
         category=category
     )
